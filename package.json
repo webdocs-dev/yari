@@ -12,7 +12,6 @@
     "yari-tool": "tool/cli.js"
   },
   "scripts": {
-    "ai-help": "ts-node scripts/ai-help.ts",
     "analyze": "source-map-explorer 'client/build/static/js/*.js'",
     "analyze:css": "source-map-explorer 'client/build/static/css/*.css'",
     "build": "cross-env NODE_ENV=production ts-node build/cli.ts",
@@ -24,7 +23,7 @@
     "build:ssr": "cd ssr && webpack --mode=production",
     "build:sw": "cd client/pwa && yarn && yarn build:prod",
     "build:sw-dev": "cd client/pwa && yarn && yarn build",
-    "check:tsc": "find . -name 'tsconfig.json' ! -wholename '**/node_modules/**' -print0 | xargs -n1 -P 2 -0 sh -c 'cd `dirname $0` && echo \"üîÑ $(pwd)\" && npx tsc --noEmit && echo \"‚òëÔ∏è  $(pwd)\" || exit 255'",
+    "check:tsc": "find . -name 'tsconfig.json' ! -wholename '**/node_modules/**' -print0 | xargs -n1 -P 2 -0 sh -c 'cd `dirname $0` && echo \"üîÑ $(pwd)\" && npx tsc --noEmit && echo \"‚òëè∏è  $(pwd)\" || exit 255'",
     "dev": "yarn build:prepare && nf -j Procfile.dev start",
     "eslint": "eslint .",
     "filecheck": "ts-node filecheck/cli.ts",
@@ -114,7 +113,6 @@
     "mdn-data": "^2.0.32",
     "open": "^9.1.0",
     "open-editor": "^4.0.0",
-    "openai": "^3.3.0",
     "prism-svelte": "^0.5.0",
     "prismjs": "^1.29.0",
     "react-markdown": "^8.0.7",

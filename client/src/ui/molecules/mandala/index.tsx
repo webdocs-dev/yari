@@ -13,9 +13,9 @@ function Mandala({
 }) {
   return (
     <div
-      className={`mandala-container ${animateColors ? "animate-colors" : ""} ${
-        extraClasses || ""
-      }`}
+      className={`mandala-container ${
+        animateColors ? "animate-colors" : ""
+      } pride ${extraClasses || ""}`}
       aria-hidden="true"
     >
       <div
@@ -116,6 +116,22 @@ function Mandala({
                   />
                 )}
               </path>
+              <path
+                d="M337.5,337.5 m-120,0 a120,120 0 1,1 240,0 a120,120 0 1,1 -240,0"
+                id="circle6"
+              >
+                {animate && (
+                  <animateTransform
+                    attributeName="transform"
+                    begin="0s"
+                    dur="500s"
+                    type="rotate"
+                    from="360 337.5 337.5"
+                    to="0 337.5 337.5"
+                    repeatCount="indefinite"
+                  />
+                )}
+              </path>
             </defs>
             <text dy="70" textLength="2010">
               <textPath textLength="2010" href="#circle1">
@@ -201,6 +217,13 @@ function Mandala({
                 <tspan>&lt;&gt;</tspan>&lt;/&gt;
                 <tspan>&lt;&gt;</tspan>&lt;/&gt;
                 <tspan>&lt;&gt;</tspan>&lt;/&gt;
+              </textPath>
+            </text>
+            <text dy="70" textLength="754">
+              <textPath textLength="754" href="#circle6">
+                <tspan>--&lt;3()</tspan>&nbsp;&nbsp; --&lt;3()&nbsp;&nbsp;
+                <tspan>--&lt;3()</tspan>&nbsp;&nbsp; --&lt;3()&nbsp;&nbsp;
+                <tspan>--&lt;3()</tspan>&nbsp;&nbsp; --&lt;3()&nbsp;&nbsp;
               </textPath>
             </text>
           </svg>
