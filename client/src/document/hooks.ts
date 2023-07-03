@@ -3,7 +3,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { useIsServer, useLocale } from "../hooks";
 import { Doc } from "../../../libs/types/document";
 import { initPlayIframe } from "../playground/utils";
-// import { addExplainButton } from "./code/ai-explain";
 import {
   addBreakoutButton,
   getCodeAndNodesForIframe,
@@ -68,7 +67,7 @@ export function useRunSample(doc: Doc | undefined) {
     });
   }, [doc, isServer, locale]);
 }
-export function useCopyExamplesToClipboardAndAIExplain(doc: Doc | undefined) {
+export function useCopyExamplesToClipboard(doc: Doc | undefined) {
   const location = useLocation();
   const isServer = useIsServer();
 

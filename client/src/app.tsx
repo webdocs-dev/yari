@@ -25,7 +25,6 @@ import { MainContentContainer } from "./ui/atoms/page-content";
 import { Loading } from "./ui/atoms/loading";
 import { Advertising } from "./advertising";
 import { HydrationData } from "../../libs/types/hydration";
-import { TopPlacement } from "./ui/organisms/placement";
 import { Blog } from "./blog";
 import { Newsletter } from "./newsletter";
 
@@ -53,7 +52,6 @@ function Layout({ pageType, children }) {
           category ? `category-${category}` : ""
         } ${pageType}`}
       >
-        <TopPlacement />
         {pageType !== "document-page" && (
           <TopNavigation extraClasses="main-document-header-container" />
         )}

@@ -16,10 +16,6 @@ function PlusDocsNav() {
           title: "Overview",
         },
         {
-          slug: "plus/docs/features/ai-help",
-          title: "AI Help",
-        },
-        {
           slug: "plus/docs/features/playground",
           title: "Playground",
         },

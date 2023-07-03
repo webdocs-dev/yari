@@ -20,7 +20,6 @@
 
 ### Features
 
-* **plus:** add AI Help frontend ([#9116](https://github.com/mdn/yari/issues/9116)) ([ab93937](https://github.com/mdn/yari/commit/ab9393793d31bc33902049677cec1c968ad3877e))
 * **surveys:** add Blog Feedback survey ([#9173](https://github.com/mdn/yari/issues/9173)) ([b4f6115](https://github.com/mdn/yari/commit/b4f61155a1aadca72eab7a7b8f0514820e5ae114))
 
 
