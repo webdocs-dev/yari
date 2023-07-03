@@ -135,11 +135,6 @@ export async function buildSPAs(options: {
         { prefix: "search", pageTitle: "Search" },
         { prefix: "plus", pageTitle: MDN_PLUS_TITLE },
         {
-          prefix: "plus/ai-help",
-          pageTitle: `AI Help | ${MDN_PLUS_TITLE}`,
-          noIndexing: true,
-        },
-        {
           prefix: "plus/collections",
           pageTitle: `Collections | ${MDN_PLUS_TITLE}`,
           noIndexing: true,
@@ -410,26 +405,6 @@ async function fetchLatestNews() {
   const items: NewsItem[] = [];
 
   items.push(
-    {
-      title: "Responsibly empowering developers with AI on MDN",
-      url: `https://blog.mozilla.org/en/products/mdn/responsibly-empowering-developers-with-ai-on-mdn/`,
-      author: "Steve Teixeira",
-      published_at: new Date("Thu, 06 Jul 2023 14:41:20 +0000").toString(),
-      source: {
-        name: "blog.mozilla.org",
-        url: `https://blog.mozilla.org/en/latest/`,
-      },
-    },
-    {
-      title: "Introducing AI Help: Your Trusted Companion for Web Development",
-      url: `/${DEFAULT_LOCALE}/blog/introducing-ai-help/`,
-      author: "Hermina Condei",
-      published_at: new Date("2023-06-27").toString(),
-      source: {
-        name: "developer.mozilla.org",
-        url: `/${DEFAULT_LOCALE}/blog/`,
-      },
-    },
     {
       title: "Introducing the MDN Playground: Bring your code to life!",
       url: `/${DEFAULT_LOCALE}/blog/introducing-the-mdn-playground/`,

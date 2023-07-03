@@ -4,12 +4,7 @@ import { User, useUserData } from "../../../user-context";
 
 import "./index.scss";
 import { useGleanClick } from "../../../telemetry/glean-context";
-import {
-  PlacementData,
-  Status,
-  usePlacement,
-} from "../../../placement-context";
-import { BANNER_AI_HELP_CLICK } from "../../../telemetry/constants";
+import { PlacementData, usePlacement } from "../../../placement-context";
 
 interface Timer {
   timeout: number | null;
@@ -57,82 +52,6 @@ export function SidePlacement() {
       imageHeight={100}
       renderer={RenderSideOrTopBanner}
     ></PlacementInner>
-  );
-}
-
-function TopPlacementFallbackContent() {
-  const gleanClick = useGleanClick();
-
-  return (
-    <p className="fallback-copy">
-      Get real-time assistance with your coding queries. Try{" "}
-      <a
-        href="/en-US/plus/ai-help"
-        onClick={() => {
-          gleanClick(BANNER_AI_HELP_CLICK);
-        }}
-      >
-        AI Help
-      </a>{" "}
-      now!
-    </p>
-  );
-}
-
-export function TopPlacement() {
-  const isServer = useIsServer();
-  const placementData = usePlacement();
-  const {
-    textColor,
-    backgroundColor,
-    ctaTextColor,
-    ctaBackgroundColor,
-    textColorDark,
-    backgroundColorDark,
-    ctaTextColorDark,
-    ctaBackgroundColorDark,
-  } = placementData?.top?.colors || {};
-  const css = Object.fromEntries(
-    [
-      ["--place-top-background-light", backgroundColor],
-      ["--place-top-color-light", textColor],
-      ["--place-top-cta-background-light", ctaBackgroundColor],
-      ["--place-top-cta-color-light", ctaTextColor],
-      ["--place-top-background-dark", backgroundColorDark || backgroundColor],
-      ["--place-top-color-dark", textColorDark || textColor],
-      [
-        "--place-top-cta-background-dark",
-        ctaBackgroundColorDark || ctaBackgroundColor,
-      ],
-      ["--place-top-cta-color-dark", ctaTextColorDark || ctaBackgroundColor],
-    ].filter(([_, v]) => Boolean(v))
-  );
-
-  const status =
-    isServer || placementData?.status === Status.loading
-      ? "loading"
-      : placementData?.top
-      ? "visible"
-      : "fallback";
-
-  return (
-    <div className={`top-banner ${status}`} style={css}>
-      {isServer || !placementData?.top ? (
-        <section className="place top container">
-          {!isServer && placementData?.status !== Status.loading && (
-            <TopPlacementFallbackContent />
-          )}
-        </section>
-      ) : (
-        <PlacementInner
-          pong={placementData.top}
-          extraClassNames={["top", "container"]}
-          cta={placementData.top?.cta}
-          imageHeight={50}
-          renderer={RenderSideOrTopBanner}
-        ></PlacementInner>
-      )}
-    </div>
   );
 }
 

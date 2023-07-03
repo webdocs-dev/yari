@@ -75,7 +75,6 @@ const PLUS_FEATURES = [
   ["updates", "Filter and sort updates"],
   ["collections", "Collections of articles"],
   ["offline", "MDN Offline"],
-  ["ai-help", "AI Help", "beta"],
 ];
 
 const CORE: OfferDetailsProps = {
@@ -85,7 +84,6 @@ const CORE: OfferDetailsProps = {
     ["updates", "Filter and sort updates"],
     ["collections", "Up to 3 collections"],
     ["playground", "Share playgrounds"],
-    ["ai-help", "AI Help: 5 questions per day", "beta"],
   ],
   includes: "Includes:",
   cta: "Start with Core",

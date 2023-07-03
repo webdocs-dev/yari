@@ -14,7 +14,6 @@ import { DocParent } from "../../../libs/types/document";
 import "./index.scss";
 import OfferOverview from "./offer-overview";
 
-const AiHelp = React.lazy(() => import("./ai-help"));
 const Collections = React.lazy(() => import("./collections"));
 const Updates = React.lazy(() => import("./updates"));
 
@@ -68,14 +67,6 @@ export function Plus({ pageTitle, ...props }: { pageTitle?: string }) {
         element={
           <Layout withSSR={true}>
             <OfferOverview />
-          </Layout>
-        }
-      />
-      <Route
-        path="ai-help/"
-        element={
-          <Layout>
-            <AiHelp />
           </Layout>
         }
       />
