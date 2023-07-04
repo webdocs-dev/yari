@@ -35,6 +35,27 @@ function populateSearchIndex(searchIndex, localeLC) {
   }
 }
 
+function getSearchIndexes() {
+  // I can't imagine MDN actually does all this work on every request,
+  // but that seems to be the case.
+  // on my crappy server it takes 8 whole seconds so caching is sorely needed.
+  const map: Map<string, SearchIndex> = new Map();
+
+  for (const locale of VALID_LOCALES.keys()) {
+    const searchIndex = new SearchIndex();
+
+    const label = `Populate search-index for ${locale}`;
+    console.time(label);
+    populateSearchIndex(searchIndex, locale);
+    searchIndex.sort();
+    console.timeEnd(label);
+    map.set(locale, searchIndex);
+  }
+  return map;
+}
+
+const searchIndexes: Map<string, SearchIndex> = getSearchIndexes();
+
 export async function searchIndexRoute(req, res) {
   // Remember, this is always in lowercase because of a middleware
   // that lowercases all incoming requests' pathname.
@@ -43,29 +64,12 @@ export async function searchIndexRoute(req, res) {
     res.status(500).send("CONTENT_TRANSLATE_ROOT not set\n");
     return;
   }
-  if (!isValidLocale(locale)) {
+  const searchIndex = searchIndexes.get(locale);
+  if (!searchIndex) {
     res.status(500).send(`unrecognized locale ${locale}`);
     return;
   }
 
-  // The advantage of creating the search index over and over on every
-  // request is that it can't possible cache itself stale.
-  // Imagine if a user just seconds ago created a page, and reaches for
-  // the search widget and can't find what they just created.
-  // Or perhaps they edited a title and expect that to turn up.
-
-  // However, if this is causing a problem, we can easily turn on some
-  // caching. Either `Cache-Control` on the response.
-  // Or, we can make this `searchIndex` a module global so it's reused
-  // repeatedly until the server is restarted.
-
-  const searchIndex = new SearchIndex();
-
-  const label = "Populate search-index";
-  console.time(label);
-  populateSearchIndex(searchIndex, locale);
-  searchIndex.sort();
-  console.timeEnd(label);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.json(searchIndex.getItems()[locale]);
 }
