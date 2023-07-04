@@ -100,8 +100,10 @@ When you embark on making a change, do it on a new branch, for example
 Annoying that mdn/yari doesn't include this information.
 
 ```
+export NODE_OPTIONS='--max-old-space-size=4096' # max megabytes of memory, if it's too low compilation may fail
 yarn build:prepare
-yarn build
+yarn build:dist
+# yarn build # (optional) this takes a LONG time but the first request to a page will be faster
 yarn start:server
 ```
 
