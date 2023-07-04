@@ -117,6 +117,7 @@ After copying `.env-dist` to `.env`, add `DEFAULT_LOCALE=en-us` to your `.env`
 First run
 
 ```
+export NODE_OPTIONS='--max-old-space-size=4096' # max megabytes of memory, if it's too low compilation may fail
 yarn build:prepare
 yarn build:dist
 yarn build # (this will take a long time)
