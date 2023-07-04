@@ -1,7 +1,8 @@
-# Yari
+# Yari Fork
 
-![Testing](https://github.com/mdn/yari/workflows/Testing%20Yari/badge.svg)
-![Prod Build](https://github.com/mdn/yari/workflows/Prod%20Build/badge.svg)
+Fork of Yari which removes AI help "features".
+
+You can view it on the Web at [https://webdocs.dev](https://webdocs.dev)
 
 ## Quickstart
 
@@ -20,18 +21,21 @@ Before you can start working with Yari, you need to:
 <!-- markdownlint-disable list-marker-space -->
 
 1.  Install [git](https://git-scm.com/), [Node.js](https://nodejs.org), and
-    [Yarn 1](https://classic.yarnpkg.com/en/docs/install).
+    [Yarn 1](https://classic.yarnpkg.com/en/docs/install). Alternatively, if you
+    have [Nix](https://nixos.org) installed on your system, you can use the dev
+    shell provided in the `flake.nix` file at the root of this repo with
+    `nix develop`, to quickly set up an environment with all of the required
+    tools. If you haven't set up Nix to use flakes yet, check the
+    [NixOS Wiki](https://nixos.wiki/wiki/Flakes#Enable_flakes) for instructions.
 
-1.  [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo)
-    the MDN [content](https://github.com/mdn/content) and
-    [yari](https://github.com/mdn/yari) repositories using the Fork button on
-    GitHub.
+1.  Clone this repository, as well as the MDN
+    [content](https://github.com/mdn/content) repository and the MDN
+    [translated-content](https://github.com/mdn/translated-content) repository
+    if translations are desired:
 
-1.  Clone the forked repositories to your computer using the following commands
-    (replace `[your account]` with the account you forked the repositories to):
-
-        git clone https://github.com/[your_account]/content.git
-        git clone https://github.com/[your_account]/yari.git
+        git clone https://github.com/webdocs-dev/yari
+        git clone https://github.com/mdn/content
+        # git clone https://github.com/mdn/translated-content
 
 <!-- markdownlint-enable list-marker-space -->
 
@@ -39,6 +43,7 @@ To run Yari locally, you'll first need to install its dependencies and build the
 app locally. Do this like so:
 
     cd yari
+    cp -r libs cloud-function/src/internal # (not in mdn/yari but seems needed?)
     yarn install
 
 Now copy the `.env-dist` file to `.env`:
@@ -48,6 +53,9 @@ Now copy the `.env-dist` file to `.env`:
 If you followed the instructions above and cloned the `content` repo as a
 sibling of your `yari` repo, the `CONTENT_ROOT` environment variable is already
 set and Yari will be able to find the content it needs to render.
+
+Also, if you want translated pages, be sure to uncomment the
+`TRANSLATED_CONTENT_ROOT` variable.
 
 At this point, you can get started. Run the following lines to compile required
 files, start the Yari web server running, and open it in your browser:
@@ -97,6 +105,45 @@ original yari repo):
 
 When you embark on making a change, do it on a new branch, for example
 `git checkout -b my-new-branch`.
+
+## Hosting the docs as a static site
+
+Make sure you have [Rust](https://rust-lang.org) installed. Then after copying
+`.env-dist` to `.env`, run
+
+    yarn build:dist
+    yarn build:prepare
+    yarn build:static # (this will take a long time)
+
+If the build fails with an error message about running out of memory, try
+setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'`
+(replacing 4096 with a "safe" maximum memory usage in megabytes).
+
+Then you can just host the directory `client/build` using a static server. Make
+sure you set the 404 page to `en-us/_spas/404.html` (this file includes a hack
+to convert URLs with uppercase letters to lowercase so that e.g.
+`/en-US/docs/Web` works).
+
+For example, you can host the web docs on port 5042 using Apache2 as follows:
+
+    # (as root from the directory of yari)
+    rm -rf /var/www/web-docs
+    mkdir -p /var/www
+    cp -r client/build /var/www/web-docs
+    cat <<EOF > /etc/apache2/sites-available/web-docs.conf
+    <VirtualHost *:5042>
+        DocumentRoot /var/www/web-docs
+        ErrorDocument 404 /en-us/_spas/404.html
+    </VirtualHost>
+    <Directory /var/www/web-docs>
+        RemoveHandler .var
+    </Directory>
+    EOF
+    ln -sf ../sites-available/web-docs.conf /etc/apache2/sites-enabled/web-docs.conf
+
+Then add `Listen 5042` next to `Listen 80` in `/etc/apache2/ports.conf` and run
+`systemctl restart apache2`. Now you can visit `http://localhost:5042` to view
+the web docs offline.
 
 ## License
 
@@ -250,11 +297,9 @@ fix it.
 
 ## Icons and logos
 
-The various formats and sizes of the favicon are generated from the file
-`mdn-web-docs.svg` in the repository root. This file is then converted to
-favicons using [realfavicongenerator.net](https://realfavicongenerator.net/). To
-generate new favicons, edit or replace the `mdn-web-docs.svg` file and then
-re-upload that to realfavicongenerator.net.
+The favicon is generated from `client/src/assets/m-icon.svg` or
+`client/src/assets/webdocs-dev-logo.svg` according to `REACT_APP_ORGANIZATION`.
+These are automatically converted to png and ico files by `yarn build:prepare`.
 
 ## Contact
 
