@@ -1,7 +1,6 @@
-# Yari
+# Yari Fork
 
-![Testing](https://github.com/mdn/yari/workflows/Testing%20Yari/badge.svg)
-![Prod Build](https://github.com/mdn/yari/workflows/Prod%20Build/badge.svg)
+Fork of Yari which removes AI help "features".
 
 ## Quickstart
 
@@ -22,16 +21,10 @@ Before you can start working with Yari, you need to:
 1.  Install [git](https://git-scm.com/), [Node.js](https://nodejs.org), and
     [Yarn 1](https://classic.yarnpkg.com/en/docs/install).
 
-1.  [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo)
-    the MDN [content](https://github.com/mdn/content) and
-    [yari](https://github.com/mdn/yari) repositories using the Fork button on
-    GitHub.
-
-1.  Clone the forked repositories to your computer using the following commands
-    (replace `[your account]` with the account you forked the repositories to):
-
-        git clone https://github.com/[your_account]/content.git
-        git clone https://github.com/[your_account]/yari.git
+1.  Clone this repository, as well as the MDN
+    [content](https://github.com/mdn/content) repository and the MDN
+    [translated-content](https://github.com/mdn/translated-content) repository
+    if translations are desired.
 
 <!-- markdownlint-enable list-marker-space -->
 
@@ -39,6 +32,7 @@ To run Yari locally, you'll first need to install its dependencies and build the
 app locally. Do this like so:
 
     cd yari
+    cp -r libs cloud-function/src/internal # (missing from mdn/yari but seems to be necessary?)
     yarn install
 
 Now copy the `.env-dist` file to `.env`:
@@ -48,6 +42,9 @@ Now copy the `.env-dist` file to `.env`:
 If you followed the instructions above and cloned the `content` repo as a
 sibling of your `yari` repo, the `CONTENT_ROOT` environment variable is already
 set and Yari will be able to find the content it needs to render.
+
+Also, if you want translated pages, be sure to uncomment the
+`TRANSLATED_CONTENT_ROOT` variable.
 
 At this point, you can get started. Run the following lines to compile required
 files, start the Yari web server running, and open it in your browser:
@@ -97,6 +94,16 @@ original yari repo):
 
 When you embark on making a change, do it on a new branch, for example
 `git checkout -b my-new-branch`.
+
+## Run server in production mode
+
+Annoying that mdn/yari doesn't include this information.
+
+```
+yarn build:prepare
+yarn build
+yarn start:server
+```
 
 ## License
 
