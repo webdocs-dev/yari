@@ -330,6 +330,12 @@ included this value for `geo.country`.
     events and pings (other than first_run_date and first_run_hour) are cleared.
     [More info](https://mozilla.github.io/glean/book/reference/general/initializing.html#when-upload-is-disabled)
 
+### `REACT_APP_SURVEYS_ENABLED`
+
+**Default: `false`**
+
+If enabled, surveys will be presented on documentation pages.
+
 ### REACT_APP_PLAYGROUND_BASE_HOST
 
 **Default: mdnplay.dev**
