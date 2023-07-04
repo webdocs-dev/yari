@@ -1,5 +1,5 @@
 import { Doc } from "../../../../../libs/types/document";
-import { survey_duration, survey_rates } from "../../../env";
+import { SURVEYS_ENABLED, survey_duration, survey_rates } from "../../../env";
 
 export interface Survey {
   key: SurveyKey;
@@ -43,16 +43,18 @@ enum SurveyKey {
   WEB_SECURITY_2023 = "WEB_SECURITY_2023",
 }
 
-export const SURVEYS: Survey[] = [
-  {
-    key: SurveyKey.BLOG_FEEDBACK_2023,
-    bucket: SurveyBucket.BLOG_FEEDBACK_2023,
-    show: (doc: Doc) => /en-US\/docs\/(Web|Learn)(\/|$)/i.test(doc.mdn_url),
-    src: "https://survey.alchemer.com/s3/7397017/MDN-Blog-user-feedback",
-    teaser:
-      "We recently launched the MDN blog to enrich our platform with valuable content and enhance your experience. To ensure that we are meeting your needs, we would like to hear your thoughts and feedback through a short user satisfaction survey.",
-    question: "How satisfied are you with your experience of the MDN blog?",
-    ...survey_duration(SurveyBucket.BLOG_FEEDBACK_2023),
-    ...survey_rates(SurveyKey.BLOG_FEEDBACK_2023),
-  },
-];
+export const SURVEYS: Survey[] = !SURVEYS_ENABLED
+  ? []
+  : [
+      {
+        key: SurveyKey.BLOG_FEEDBACK_2023,
+        bucket: SurveyBucket.BLOG_FEEDBACK_2023,
+        show: (doc: Doc) => /en-US\/docs\/(Web|Learn)(\/|$)/i.test(doc.mdn_url),
+        src: "https://survey.alchemer.com/s3/7397017/MDN-Blog-user-feedback",
+        teaser:
+          "We recently launched the MDN blog to enrich our platform with valuable content and enhance your experience. To ensure that we are meeting your needs, we would like to hear your thoughts and feedback through a short user satisfaction survey.",
+        question: "How satisfied are you with your experience of the MDN blog?",
+        ...survey_duration(SurveyBucket.BLOG_FEEDBACK_2023),
+        ...survey_rates(SurveyKey.BLOG_FEEDBACK_2023),
+      },
+    ];
