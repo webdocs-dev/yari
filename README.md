@@ -2,6 +2,8 @@
 
 Fork of Yari which removes AI help "features".
 
+You can view it on the Web here: https://mdn.pommicket.com
+
 ## Quickstart
 
 Development on `yari` involves updating the machinery that renders MDN content
@@ -24,7 +26,13 @@ Before you can start working with Yari, you need to:
 1.  Clone this repository, as well as the MDN
     [content](https://github.com/mdn/content) repository and the MDN
     [translated-content](https://github.com/mdn/translated-content) repository
-    if translations are desired.
+    if translations are desired:
+    
+    ```
+    git clone https://github.com/pommicket/yari
+    git clone https://github.com/mdn/content
+    # git clone https://github.com/mdn/translated-content
+    ```
 
 <!-- markdownlint-enable list-marker-space -->
 
@@ -106,6 +114,10 @@ yarn build:dist
 # yarn build # (optional) this takes a LONG time but the first request to a page will be faster
 yarn start:server
 ```
+
+If you only make changes to the source files in the `server` directory,
+you just need to run `yarn build:dist` and restart the server (in particular,
+don't run `yarn build:prepare` again since it'll delete all the stuff that `yarn build` built).
 
 ## License
 
