@@ -25,17 +25,6 @@ export const TopNavigationMain = ({ isOpenOnMobile }) => {
 
       <Search id="top-nav-search" />
       <ThemeSwitcher />
-
-      {(PLUS_IS_ENABLED &&
-        !isServer &&
-        userData &&
-        userData.isAuthenticated && <UserMenu />) ||
-        (userData?.maintenance && <Maintenance />) || (
-          <AuthContainer
-            signInGleanContext={TOP_NAV_ALREADY_SUBSCRIBER}
-            subscribeGleanContext={TOP_NAV_GET_MDN_PLUS}
-          />
-        )}
     </div>
   );
 };
