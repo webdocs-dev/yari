@@ -10,11 +10,16 @@ import { getLocale } from "../libs/locale-utils/index.js";
 import { devMiddlewares } from "./dev.js";
 
 // Lowercase every request because every possible file we might have
-// on disk is always in lowercase.
+// on disk is always in lowercase. (pommicket: not fucking true, mdn)
 // This only helps when you're on a filesystem (e.g. Linux) that is case
 // sensitive.
 const slugRewrite = (req, res, next) => {
-  req.url = req.url.toLowerCase();
+  // pommicket:
+  // mdn is wrong. the font files are not all lowercase.
+  // neither is main.js.blablabla.LICENSE.txt
+  // i guess they run windows on their servers? fucked up
+  if (!req.url.endsWith(".woff2") && req.url.indexOf("LICENSE") === -1)
+    req.url = req.url.toLowerCase();
   next();
 };
 
@@ -57,10 +62,15 @@ export const staticMiddlewares = [
   slugRewrite,
   express.static(STATIC_ROOT, {
     setHeaders: (res) => {
-      if (res.req.path.endsWith("/runner.html")) {
+      if (res.req.path.endsWith(".svg") || res.req.path.endsWith(".woff2")) {
+        // pommicket: these resources don't change often
+        res.setHeader("Cache-Control", "public, max-age=86400");
+      } else if (res.req.path.endsWith("/runner.html")) {
         res.setHeader("Content-Security-Policy", PLAYGROUND_UNSAFE_CSP_VALUE);
       } else {
         res.setHeader("Content-Security-Policy", CSP_VALUE);
+        // pommicket: default cache for 1hr
+        res.setHeader("Cache-Control", "public, max-age=3600");
       }
     },
   }),
