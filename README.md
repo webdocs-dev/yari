@@ -32,9 +32,9 @@ Before you can start working with Yari, you need to:
     [content](https://github.com/mdn/content) repository and the MDN
     [translated-content](https://github.com/mdn/translated-content) repository
     if translations are desired:
-
+    
     ```
-    git clone https://github.com/MDN-Community-Fork/yari
+    git clone https://github.com/pommicket/yari
     git clone https://github.com/mdn/content
     # git clone https://github.com/mdn/translated-content
     ```
