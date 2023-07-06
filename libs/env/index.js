@@ -81,6 +81,9 @@ export const CONTRIBUTOR_SPOTLIGHT_ROOT = correctContentPathFromEnv(
 );
 
 export const BLOG_ROOT = correctContentPathFromEnv("BLOG_ROOT");
+export const BLOG_IS_ENABLED = JSON.parse(
+  process.env.REACT_APP_ENABLE_BLOG || "false"
+);
 
 // This makes it possible to know, give a root folder, what is the name of
 // the repository on GitHub.

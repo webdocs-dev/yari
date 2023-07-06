@@ -5,7 +5,7 @@ import { ReferenceMenu } from "../reference-menu";
 import { PlusMenu } from "../plus-menu";
 
 import "./index.scss";
-import { PLUS_IS_ENABLED } from "../../../env";
+import { PLUS_IS_ENABLED, BLOG_IS_ENABLED } from "../../../env";
 import { useLocale } from "../../../hooks";
 
 export default function MainMenu({ isOpenOnMobile }) {
@@ -79,11 +79,13 @@ export default function MainMenu({ isOpenOnMobile }) {
             toggleMenu={toggleMenu}
           />
         )}
-        <li className="top-level-entry-container">
-          <a className="top-level-entry menu-link" href="/en-US/blog/">
-            Blog
-          </a>
-        </li>
+        {BLOG_IS_ENABLED && (
+          <li className="top-level-entry-container">
+            <a className="top-level-entry menu-link" href="/en-US/blog/">
+              Blog
+            </a>
+          </li>
+        )}
         <li className="top-level-entry-container">
           <a className="top-level-entry menu-link" href={`/${locale}/play`}>
             Play <sup className="new">New</sup>
