@@ -5,7 +5,12 @@ import { Routes, Route, useLocation, useMatch } from "react-router-dom";
 // and applied before any component specific style
 import "./app.scss";
 
-import { WRITER_MODE, PLACEMENT_ENABLED, PLUS_IS_ENABLED } from "./env";
+import {
+  WRITER_MODE,
+  PLACEMENT_ENABLED,
+  PLUS_IS_ENABLED,
+  BLOG_IS_ENABLED,
+} from "./env";
 import { Homepage } from "./homepage";
 import { Document } from "./document";
 import { A11yNav } from "./ui/molecules/a11y-nav";
@@ -160,14 +165,16 @@ export function App(appProps: HydrationData) {
         time it hits any React code.
        */}
       <Route path="/" element={homePage} />
-      <Route
-        path="/en-US/blog/*"
-        element={
-          <StandardLayout extraClasses="blog">
-            <Blog {...appProps} />
-          </StandardLayout>
-        }
-      />
+      {BLOG_IS_ENABLED && (
+        <Route
+          path="/en-US/blog/*"
+          element={
+            <StandardLayout extraClasses="blog">
+              <Blog {...appProps} />
+            </StandardLayout>
+          }
+        />
+      )}
       <Route
         path="/:locale/*"
         element={

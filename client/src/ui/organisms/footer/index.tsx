@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import { ReactComponent as MDNLogo } from "../../../assets/mdn-footer-logo.svg";
 import { ReactComponent as MozLogo } from "../../../assets/moz-logo.svg";
-import { PLUS_IS_ENABLED } from "../../../env";
+import { PLUS_IS_ENABLED, BLOG_IS_ENABLED } from "../../../env";
 const DARK_NAV_ROUTES = [/\/plus\/?$/i];
 
 export function Footer() {
@@ -60,9 +60,11 @@ export function Footer() {
             <li className="footer-nav-item">
               <a href={`/en-US/about`}>About</a>
             </li>
-            <li className="footer-nav-item">
-              <a href={`/en-US/blog/`}>Blog</a>
-            </li>
+            {BLOG_IS_ENABLED && (
+              <li className="footer-nav-item">
+                <a href={`/en-US/blog/`}>Blog</a>
+              </li>
+            )}
             <li className="footer-nav-item">
               <a
                 href="https://www.mozilla.org/en-US/careers/listings/?team=Marketing"
