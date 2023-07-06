@@ -195,6 +195,14 @@ export async function buildDocument(
   };
   const { metadata, fileInfo } = document;
 
+  if (fileInfo.folder.endsWith("/")) {
+    // without this I'm getting
+    //    Error: The document's slug (Web/API) doesn't match its disk folder name (en-us/web/api/)
+    // when i visit /en-US/docs/Web/API/
+    // but that doesn't happen on developer.mozilla.org no clue why
+    fileInfo.folder = fileInfo.folder.substring(0, fileInfo.folder.length - 1);
+  }
+
   if (Document.urlToFolderPath(document.url) !== document.fileInfo.folder) {
     throw new Error(
       `The document's slug (${metadata.slug}) doesn't match its disk folder name (${document.fileInfo.folder})`

@@ -14,11 +14,11 @@ interface DocAttributes {
   slug: string;
 }
 
-function populateSearchIndex(searchIndex, localeLC) {
-  const root = path.join(
-    localeLC === "en-us" ? CONTENT_ROOT : CONTENT_TRANSLATED_ROOT,
-    localeLC
-  );
+function getSearchIndex(localeLC) {
+  const dir = localeLC === "en-us" ? CONTENT_ROOT : CONTENT_TRANSLATED_ROOT;
+  if (!dir) return undefined;
+  const searchIndex = new SearchIndex();
+  const root = path.join(dir, localeLC);
   const locale = VALID_LOCALES.get(localeLC);
   const api = new fdir().withFullPaths().withErrors().crawl(root);
   for (const filePath of api.sync() as PathsOutput) {
@@ -33,6 +33,7 @@ function populateSearchIndex(searchIndex, localeLC) {
     const doc = { metadata, url };
     searchIndex.add(doc);
   }
+  return searchIndex;
 }
 
 export async function searchIndexRoute(req, res) {
