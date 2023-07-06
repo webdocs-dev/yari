@@ -27,7 +27,7 @@ Before you can start working with Yari, you need to:
     [content](https://github.com/mdn/content) repository and the MDN
     [translated-content](https://github.com/mdn/translated-content) repository
     if translations are desired:
-    
+
     ```
     git clone https://github.com/pommicket/yari
     git clone https://github.com/mdn/content
@@ -115,9 +115,10 @@ yarn build:dist
 yarn start:server
 ```
 
-If you only make changes to the source files in the `server` directory,
-you just need to run `yarn build:dist` and restart the server (in particular,
-don't run `yarn build:prepare` again since it'll delete all the stuff that `yarn build` built).
+If you only make changes to the source files in the `server` directory, you just
+need to run `yarn build:dist` and restart the server (in particular, don't run
+`yarn build:prepare` again since it'll delete all the stuff that `yarn build`
+built).
 
 ## License
 
