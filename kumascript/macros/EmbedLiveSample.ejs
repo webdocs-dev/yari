@@ -70,6 +70,12 @@ if (sampleSlug) {
 }
 var id = web.slugify(web.safeDecodeURIComponent(sampleIdOrOffset));
 var url = await template('LiveSampleURL', [id, sampleUrl]);
+if (url.indexOf("://") !== -1) {
+	// remove protocol and domain name from url
+	// (this is needed for accessing docs through a server-side proxy)
+	url = url.substring(url.indexOf("://") + 3);
+	url = url.substring(url.indexOf("/"));
+}
 
 if (hasScreenshot) {
 %><table class="sample-code-table"><%
