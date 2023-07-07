@@ -10,6 +10,7 @@ import { SearchIndex } from "../build/index.js";
 import { isValidLocale } from "../libs/locale-utils/index.js";
 
 interface DocAttributes {
+  title: string;
   locale: string;
   slug: string;
 }
