@@ -34,7 +34,7 @@ Before you can start working with Yari, you need to:
     if translations are desired:
 
     ```
-    git clone https://github.com/pommicket/yari
+    git clone https://github.com/MDN-Community-Fork/yari
     git clone https://github.com/mdn/content
     # git clone https://github.com/mdn/translated-content
     ```
@@ -117,7 +117,6 @@ After copying `.env-dist` to `.env`, add `DEFAULT_LOCALE=en-us` to your `.env`
 First run
 
 ```
-export NODE_OPTIONS='--max-old-space-size=4096' # max megabytes of memory, if it's too low compilation may fail
 yarn build:prepare
 yarn build:dist
 yarn build # (this will take a long time)
@@ -133,6 +132,16 @@ Then you can just host the directory `client/build` using a static server. Make
 sure you set the 404 page to `en-us/_spas/404.html` (this file includes a hack
 to convert URLs with uppercase letters to lowercase so that e.g.
 `/en-US/docs/Web` works).
+```
+
+If the build fails with an error message about running out of memory, try
+setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'
+(replacing 4096 with a "safe" maximum memory usage in megabytes).
+
+Then you can just host the directory `client/build` using a static server.
+However, MDN has played loose with capitalization, so you will need to set your
+server to be case insensitive.
+>>>>>>> 3ca5ce6ad (update hosting instructions, add runner.html hack)
 
 For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 

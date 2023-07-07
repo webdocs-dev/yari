@@ -53,6 +53,9 @@ function getSearchIndexes() {
   return map;
 }
 
+// building the search index can take some time,
+// so we cache it. mdn/yari opts not to do this because
+// if you're editing the site the cache can become stale.
 const searchIndexes: Map<string, SearchIndex> = getSearchIndexes();
 
 export async function searchIndexRoute(req, res) {
