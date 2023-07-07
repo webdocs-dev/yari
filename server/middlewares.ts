@@ -17,7 +17,6 @@ const slugRewrite = (req, res, next) => {
   // pommicket:
   // mdn is wrong. the font files are not all lowercase.
   // neither is main.js.blablabla.LICENSE.txt
-  // i guess they run windows on their servers? fucked up
   if (!req.url.endsWith(".woff2") && req.url.indexOf("LICENSE") === -1)
     req.url = req.url.toLowerCase();
   next();
