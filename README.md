@@ -135,13 +135,12 @@ to convert URLs with uppercase letters to lowercase so that e.g.
 ```
 
 If the build fails with an error message about running out of memory, try
-setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'
+setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'`
 (replacing 4096 with a "safe" maximum memory usage in megabytes).
 
 Then you can just host the directory `client/build` using a static server.
 However, MDN has played loose with capitalization, so you will need to set your
 server to be case insensitive.
->>>>>>> 3ca5ce6ad (update hosting instructions, add runner.html hack)
 
 For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 
