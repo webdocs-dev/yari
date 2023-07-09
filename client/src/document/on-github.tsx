@@ -94,6 +94,7 @@ function NewIssueOnGitHubLink({
 }) {
   const { locale } = doc;
   const url = new URL("https://github.com/");
+  const github_org = process.env.GITHUB_ORG;
   const sp = new URLSearchParams();
 
   url.pathname =
