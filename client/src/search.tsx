@@ -382,7 +382,7 @@ function InnerSearchNavigateWidget(props: InnerSearchNavigateWidgetProps) {
                 })}
               >
                 <a
-                  href={item.url}
+                  href={item.url.toLowerCase()}
                   onClick={resultClick}
                   onAuxClick={resultClick}
                   tabIndex={-1}

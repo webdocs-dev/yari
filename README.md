@@ -103,27 +103,30 @@ original yari repo):
 When you embark on making a change, do it on a new branch, for example
 `git checkout -b my-new-branch`.
 
-## Hosting a production build
+## Hosting the docs as a static site
+
+After copying `.env-dist` to `.env`, add `DEFAULT_LOCALE=en-us` to your `.env`
+(this is needed to ensure that pages are linked to as `/en-us/...` rather than
+`/en-US/...` from the homepage).
 
 First run
 
 ```
-cp .env-dist .env
 yarn build:prepare
 yarn build:dist
-yarn build
+yarn build # (this will take a long time)
+rustc scripts/fix-urls.rs -O -o scripts/fix-urls
+scripts/fix-urls
 ```
 
 If the build fails with an error message about running out of memory, try
 setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'`
 (replacing 4096 with a "safe" maximum memory usage in megabytes).
 
-Then you can just host the directory `client/build` using a static server,
-except that:
-
-- URLs need to be treated as case insensitive
-- `::` needs to be replaced with `_doublecolon_`, `:` needs to be replaced with
-  `_colon_`, and `*` needs to be replaced with `_star_`.
+Then you can just host the directory `client/build` using a static server. Make
+sure you set the 404 page to `en-us/_spas/404.html` (this file includes a hack
+to convert URLs with uppercase letters to lowercase so that e.g.
+`/en-US/docs/Web` works).
 
 For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 
@@ -132,19 +135,11 @@ For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 rm -rf /var/www/mdn
 mkdir -p /var/www
 cp -r client/build /var/www/mdn
-a2enmod speling # (sic)
-a2enmod rewrite
 cat <<EOF > /etc/apache2/sites-available/mdn-web-docs.conf
 <VirtualHost *:5042>
     DocumentRoot /var/www/mdn
     ErrorLog /var/log/apache2/error.log
-
-    CheckSpelling On
-    CheckCaseOnly On
-    RewriteEngine On
-    RewriteRule ^(.*)::(.*)$ $1_doublecolon_$2 [N,PT]
-    RewriteRule ^(.*)([^:]):([^:])(.*)$ $1$2_colon_$3$4 [N,PT]
-    RewriteRule ^(.*)\*(.*)$ $1_star_$2 [N,PT]
+    ErrorDocument 404 /en-us/_spas/404.html
 </VirtualHost>
 <Directory /var/www/mdn>
     RemoveHandler .var
