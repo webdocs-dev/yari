@@ -9,6 +9,8 @@ import got from "got";
 
 import { m2h } from "../markdown/index.js";
 
+import * as dotenv from "dotenv";
+
 import {
   VALID_LOCALES,
   MDN_PLUS_TITLE,
@@ -29,6 +31,8 @@ import { getSlugByBlogPostUrl, splitSections } from "./utils.js";
 import { findByURL } from "../content/document.js";
 import { buildDocument } from "./index.js";
 import { findPostBySlug } from "./blog.js";
+
+export const GITHUB_ORG = process.env.GITHUB_ORG;
 
 const FEATURED_ARTICLES = [
   "blog/regular-expressions-reference-updates/",
@@ -374,7 +378,7 @@ async function fetchGitHubPRs(repo, count = 5) {
 }
 
 async function fetchRecentContributions() {
-  const repos = ["mdn/content", "mdn/translated-content"];
+  const repos = [`${GITHUB_ORG}/content`, `${GITHUB_ORG}/translated-content`];
   const countPerRepo = 5;
   const pullRequests = (
     await Promise.all(
