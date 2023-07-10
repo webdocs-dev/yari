@@ -103,11 +103,12 @@ original yari repo):
 When you embark on making a change, do it on a new branch, for example
 `git checkout -b my-new-branch`.
 
-## Hosting a production build of MDN web docs
+## Hosting a production build
 
 First run
 
 ```
+cp .env-dist .env
 yarn build:prepare
 yarn build:dist
 yarn build
