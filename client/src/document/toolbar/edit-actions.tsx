@@ -79,7 +79,7 @@ export function EditActions({ source }: { source: Source }) {
 
       <li>
         <a
-          href={`https://developer.mozilla.org/${locale}/docs/${slug}`}
+          href={`${process.env.CONTENT_ORIGIN}/${locale}/docs/${slug}`}
           className="button"
         >
           View on MDN

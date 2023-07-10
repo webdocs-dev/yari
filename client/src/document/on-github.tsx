@@ -1,4 +1,5 @@
 import { Doc } from "../../../libs/types/document";
+import { CONTENT_ORIGIN } from "../env";
 
 export function OnGitHubLink({ doc }: { doc: Doc }) {
   return (
@@ -24,7 +25,7 @@ export function OnGitHubLink({ doc }: { doc: Doc }) {
       </ul>
       Want to get more involved?{" "}
       <a
-        href="https://github.com/mdn/content/blob/main/CONTRIBUTING.md"
+        href={`https://github.com/mdn/content/blob/main/CONTRIBUTING.md`}
         title={`This will take you to our contribution guidelines on GitHub.`}
         target="_blank"
         rel="noopener noreferrer"
@@ -62,7 +63,7 @@ const METADATA_TEMPLATE = `
 <summary>Page report details</summary>
 
 * Folder: \`$FOLDER\`
-* MDN URL: https://developer.mozilla.org$PATHNAME
+* MDN URL: ${CONTENT_ORIGIN}$PATHNAME
 * GitHub URL: $GITHUB_URL
 * Last commit: $LAST_COMMIT_URL
 * Document last modified: $DATE
@@ -97,15 +98,15 @@ function NewIssueOnGitHubLink({
 
   url.pathname =
     locale !== "en-US"
-      ? "/mdn/translated-content/issues/new"
-      : "/mdn/content/issues/new";
+      ? `/mdn/translated-content/issues/new`
+      : `/mdn/content/issues/new`;
   sp.set(
     "template",
     locale !== "en-US"
       ? `page-report-${locale.toLowerCase()}.yml`
       : "page-report.yml"
   );
-  sp.set("mdn-url", `https://developer.mozilla.org${doc.mdn_url}`);
+  sp.set("mdn-url", `${CONTENT_ORIGIN}${doc.mdn_url}`);
   sp.set("metadata", fillMetadata(METADATA_TEMPLATE, doc));
 
   url.search = sp.toString();

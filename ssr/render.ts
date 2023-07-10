@@ -6,7 +6,12 @@ import { renderToString } from "react-dom/server";
 import { HydrationData } from "../libs/types/hydration";
 
 import { DEFAULT_LOCALE } from "../libs/constants";
-import { ALWAYS_ALLOW_ROBOTS, BUILD_OUT_ROOT, BASE_URL } from "../libs/env";
+import {
+  ALWAYS_ALLOW_ROBOTS,
+  BUILD_OUT_ROOT,
+  BASE_URL,
+  CONTENT_ORIGIN,
+} from "../libs/env";
 
 const dirname = path.dirname(fileURLToPath(new URL(".", import.meta.url)));
 
@@ -212,7 +217,7 @@ export default function render(
         translations.push(
           `<link rel="alternate" title="${htmlEscape(
             translation.title
-          )}" href="https://developer.mozilla.org${translationURL}" hreflang="${getHrefLang(
+          )}" href="${CONTENT_ORIGIN}${translationURL}" hreflang="${getHrefLang(
             translation.locale,
             allLocales
           )}"/>`
