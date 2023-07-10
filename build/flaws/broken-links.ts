@@ -15,6 +15,8 @@ import * as cheerio from "cheerio";
 import { Doc } from "../../libs/types/document.js";
 import { Flaw } from "./index.js";
 
+import "dotenv/config";
+
 function findMatchesInMarkdown(rawContent: string, href: string) {
   const matches = [];
   visit(fromMarkdown(rawContent), "link", (node: any) => {
@@ -225,7 +227,7 @@ export function getBrokenLinksFlaws(
       // Note! If it's not known that the URL's domain can be turned into https://
       // we do nothing here. No flaw. It's unfortunate that we still have http://
       // links in our content but that's a reality of MDN being 15+ years old.
-    } else if (href.startsWith("https://developer.mozilla.org/")) {
+    } else if (href.startsWith(process.env.CONTENT_ORIGIN)) {
       // It might be a working 200 OK link but the link just shouldn't
       // have the full absolute URL part in it.
       const absoluteURL = new URL(href);

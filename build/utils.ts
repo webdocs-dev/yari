@@ -20,6 +20,8 @@ import { FileAttachment } from "../content/index.js";
 import { spawnSync } from "node:child_process";
 import { BLOG_ROOT } from "../libs/env/index.js";
 
+import "dotenv/config";
+
 const { default: imageminPngquant } = imageminPngquantPkg;
 
 export function humanFileSize(size: number) {
@@ -225,7 +227,7 @@ export function injectLoadingLazyAttributes($) {
 export function postProcessExternalLinks($) {
   $("a[href^=http]").each((i, element) => {
     const $a = $(element);
-    if ($a.attr("href").startsWith("https://developer.mozilla.org")) {
+    if ($a.attr("href").startsWith(process.env.CONTENT_ORIGIN)) {
       // This should have been removed since it's considered a flaw.
       // But we haven't applied all fixable flaws yet and we still have to
       // support translated content which is quite a long time away from
