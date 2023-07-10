@@ -8,9 +8,11 @@ import fs from "node:fs";
 import { VALID_LOCALES } from "../libs/constants/index.js";
 import { ALWAYS_ALLOW_ROBOTS } from "../libs/env/index.js";
 
+import "dotenv/config";
+
 const ALLOW_TEXT = `
 User-agent: *
-Sitemap: https://developer.mozilla.org/sitemap.xml
+Sitemap: ${process.env.CONTENT_ORIGIN}/sitemap.xml
 
 Disallow: /api/
 Disallow: /*/files/

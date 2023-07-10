@@ -8,6 +8,8 @@ import { HydrationData } from "../libs/types/hydration";
 import { DEFAULT_LOCALE } from "../libs/constants";
 import { ALWAYS_ALLOW_ROBOTS, BUILD_OUT_ROOT, BASE_URL } from "../libs/env";
 
+import "dotenv/config";
+
 const dirname = path.dirname(fileURLToPath(new URL(".", import.meta.url)));
 
 // When there are multiple options for a given language, this gives the
@@ -212,7 +214,9 @@ export default function render(
         translations.push(
           `<link rel="alternate" title="${htmlEscape(
             translation.title
-          )}" href="https://developer.mozilla.org${translationURL}" hreflang="${getHrefLang(
+          )}" href="https://${
+            process.env.CONTENT_ORIGIN
+          }${translationURL}" hreflang="${getHrefLang(
             translation.locale,
             allLocales
           )}"/>`
