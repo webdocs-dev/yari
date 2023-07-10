@@ -7,6 +7,7 @@ import { FeatureRow } from "./feature-row";
 import { Headers } from "./headers";
 import { Legend } from "./legend";
 import { listFeatures } from "./utils";
+import { CONTENT_ORIGIN } from "../../../env";
 
 // Note! Don't import any SCSS here inside *this* component.
 // It's done in the component that lazy-loads this component.
@@ -156,7 +157,7 @@ export default function BrowserCompatibilityTable({
     )
       .replace(/\$QUERY_ID/g, query)
       .trim();
-    sp.set("mdn-url", `https://developer.mozilla.org${location.pathname}`);
+    sp.set("mdn-url", `${CONTENT_ORIGIN}${location.pathname}`);
     sp.set("metadata", metadata);
     sp.set("title", `${query} - <SUMMARIZE THE PROBLEM>`);
     sp.set("template", "data-problem.yml");

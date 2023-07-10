@@ -1,10 +1,12 @@
+import "dotenv/config";
+
 export function makeSitemapXML(locale, docs) {
   // Based on https://support.google.com/webmasters/answer/183668?hl=en
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ...docs.map((doc) => {
-      const loc = `<loc>https://developer.mozilla.org/${locale}/docs/${doc.slug}</loc>`;
+      const loc = `<loc>${process.env.REACT_APP_CONTENT_ORIGIN}/${locale}/docs/${doc.slug}</loc>`;
       const modified = doc.modified
         ? `<lastmod>${doc.modified.toString().split("T")[0]}</lastmod>`
         : "";
@@ -23,7 +25,7 @@ export function makeSitemapIndexXML(pathnames) {
     ...pathnames.map((pathname) => {
       return (
         "<sitemap>" +
-        `<loc>https://developer.mozilla.org${pathname}</loc>` +
+        `<loc>https://${process.env.REACT_APP_CONTENT_ORIGIN}${pathname}</loc>` +
         `<lastmod>${new Date().toISOString().split("T")[0]}</lastmod>` +
         "</sitemap>"
       );
