@@ -1,4 +1,5 @@
 import { Doc } from "../../../libs/types/document";
+import { CONTENT_ORIGIN } from "../env";
 
 export function OnGitHubLink({ doc }: { doc: Doc }) {
   return (
@@ -62,7 +63,7 @@ const METADATA_TEMPLATE = `
 <summary>Page report details</summary>
 
 * Folder: \`$FOLDER\`
-* MDN URL: https://developer.mozilla.org$PATHNAME
+* MDN URL: ${process.env.CONTENT_ORIGIN}$PATHNAME
 * GitHub URL: $GITHUB_URL
 * Last commit: $LAST_COMMIT_URL
 * Document last modified: $DATE
@@ -105,7 +106,7 @@ function NewIssueOnGitHubLink({
       ? `page-report-${locale.toLowerCase()}.yml`
       : "page-report.yml"
   );
-  sp.set("mdn-url", `https://developer.mozilla.org${doc.mdn_url}`);
+  sp.set("mdn-url", `${process.env.CONTENT_ORIGIN}${doc.mdn_url}`);
   sp.set("metadata", fillMetadata(METADATA_TEMPLATE, doc));
 
   url.search = sp.toString();

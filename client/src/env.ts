@@ -50,6 +50,9 @@ export const KUMA_HOST =
 export const PLAYGROUND_BASE_HOST =
   process.env.REACT_APP_PLAYGROUND_BASE_HOST || "mdnplay.dev";
 
+export const CONTENT_ORIGIN =
+  process.env.REACT_APP_CONTENT_ORIGIN || "https://developer.mozilla.org";
+
 export const PLUS_IS_ENABLED = Boolean(
   JSON.parse(process.env.REACT_APP_ENABLE_PLUS || "false")
 );

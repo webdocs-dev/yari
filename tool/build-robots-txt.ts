@@ -10,7 +10,7 @@ import { ALWAYS_ALLOW_ROBOTS } from "../libs/env/index.js";
 
 const ALLOW_TEXT = `
 User-agent: *
-Sitemap: https://developer.mozilla.org/sitemap.xml
+Sitemap: ${process.env.REACT_APP_CONTENT_ORIGIN}/sitemap.xml
 
 Disallow: /api/
 Disallow: /*/files/

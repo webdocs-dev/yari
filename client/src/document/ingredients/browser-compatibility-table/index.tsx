@@ -156,7 +156,7 @@ export default function BrowserCompatibilityTable({
     )
       .replace(/\$QUERY_ID/g, query)
       .trim();
-    sp.set("mdn-url", `https://developer.mozilla.org${location.pathname}`);
+    sp.set("mdn-url", `${process.env.CONTENT_ORIGIN}${location.pathname}`);
     sp.set("metadata", metadata);
     sp.set("title", `${query} - <SUMMARIZE THE PROBLEM>`);
     sp.set("template", "data-problem.yml");
