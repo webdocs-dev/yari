@@ -114,29 +114,36 @@ yarn build
 ```
 
 If the build fails with an error message about running out of memory, try
-setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'
+setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'`
 (replacing 4096 with a "safe" maximum memory usage in megabytes).
 
-Then you can just host the directory `client/build` using a static server.
-However, MDN has played loose with capitalization, so you will need to set your
-server to be case insensitive.
+Then you can just host the directory `client/build` using a static server,
+except that:
+
+- URLs need to be treated as case insensitive
+- `::` needs to be replaced with `_doublecolon_`, `:` needs to be replaced with
+  `_colon_`, and `*` needs to be replaced with `_star_`.
 
 For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 
 ```
 # (as root from the directory of yari)
 rm -rf /var/www/mdn
+mkdir -p /var/www
 cp -r client/build /var/www/mdn
 a2enmod speling # (sic)
+a2enmod rewrite
 cat <<EOF > /etc/apache2/sites-available/mdn-web-docs.conf
 <VirtualHost *:5042>
     DocumentRoot /var/www/mdn
     ErrorLog /var/log/apache2/error.log
 
-    <IfModule mod_speling.c>
-        CheckSpelling On
-        CheckCaseOnly On
-    </IfModule>
+    CheckSpelling On
+    CheckCaseOnly On
+    RewriteEngine On
+    RewriteRule ^(.*)::(.*)$ $1_doublecolon_$2 [N,PT]
+    RewriteRule ^(.*)([^:]):([^:])(.*)$ $1$2_colon_$3$4 [N,PT]
+    RewriteRule ^(.*)\*(.*)$ $1_star_$2 [N,PT]
 </VirtualHost>
 <Directory /var/www/mdn>
     RemoveHandler .var
