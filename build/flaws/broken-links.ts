@@ -16,6 +16,8 @@ import { Doc } from "../../libs/types/document.js";
 import { CONTENT_ORIGIN } from "../../libs/env/index.js";
 import { Flaw } from "./index.js";
 
+import "dotenv/config";
+
 function findMatchesInMarkdown(rawContent: string, href: string) {
   const matches = [];
   visit(fromMarkdown(rawContent), "link", (node: any) => {
