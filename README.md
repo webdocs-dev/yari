@@ -21,7 +21,12 @@ Before you can start working with Yari, you need to:
 <!-- markdownlint-disable list-marker-space -->
 
 1.  Install [git](https://git-scm.com/), [Node.js](https://nodejs.org), and
-    [Yarn 1](https://classic.yarnpkg.com/en/docs/install).
+    [Yarn 1](https://classic.yarnpkg.com/en/docs/install). Alternatively, if you
+    have [Nix](https://nixos.org) installed on your system, you can use the dev
+    shell provided in the `flake.nix` file at the root of this repo with
+    `nix develop`, to quickly set up an environment with all of the required
+    tools. If you haven't set up Nix to use flakes yet, check the
+    [NixOS Wiki](https://nixos.wiki/wiki/Flakes#Enable_flakes) for instructions.
 
 1.  Clone this repository, as well as the MDN
     [content](https://github.com/mdn/content) repository and the MDN
