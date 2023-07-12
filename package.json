@@ -176,7 +176,7 @@
     "css-minimizer-webpack-plugin": "^5.0.1",
     "diff": "^5.1.0",
     "dotenv-webpack": "^8.0.1",
-    "downshift": "^7.6.0",
+    "downshift": "^7.6.1",
     "eslint": "^8.44.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-gitignore": "^0.1.0",
