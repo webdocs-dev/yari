@@ -33,7 +33,7 @@ export const RETIRED_LOCALES = new Map(
   ].map((x) => [x.toLowerCase(), x])
 );
 
-export const DEFAULT_LOCALE = "en-US";
+export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE || "en-US";
 
 export const LOCALE_ALIASES = new Map([
   // Case is not important on either the keys or the values.
