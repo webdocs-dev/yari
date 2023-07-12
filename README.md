@@ -117,7 +117,6 @@ After copying `.env-dist` to `.env`, add `DEFAULT_LOCALE=en-us` to your `.env`
 First run
 
 ```
-cp .env-dist .env
 yarn build:prepare
 yarn build:dist
 yarn build # (this will take a long time)
