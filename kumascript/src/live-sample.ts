@@ -132,10 +132,6 @@ export async function buildLiveSamplePages(uri, title, $, rawBody) {
         }
         sampleData.sampleTitle = `${title} - ${id} - code sample`;
         result.html = liveSampleTemplate(sampleData);
-        // pommicket: make every iframe point to the same runner.html file
-        // because there's only one actual runner.html in the build output.
-        // not sure why MDN decided to give each iframe its own /some/long/path/runner.html
-        $(iframe).attr("src", `/runner.html?id=${iframeSlug}`);
         return result;
       }),
   ]);
