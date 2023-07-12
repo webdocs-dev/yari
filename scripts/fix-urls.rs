@@ -106,13 +106,13 @@ fn process_file(path_buf: &PathBuf) -> Result<(), String> {
         }
     }
 
-    {
+    for key in ["uri", "url"] {
         // also some links are contained in JSON as "uri":"/en-US/docs/blablabla"
-        // so we need to fix those too
-        let search_term = "\"uri\":\"";
+        // or "url":"/en-US/docs/blablabla" so we need to fix those too
+        let search_term = format!("\"{key}\":\"");
         let mut i = 0;
         let mut iteration = || -> Option<()> {
-            let url_start = i + file_contents[i..].find(search_term)? + search_term.len();
+            let url_start = i + file_contents[i..].find(&search_term)? + search_term.len();
             let url_end = url_start + file_contents[url_start..].find('"')?;
             fix_url(&mut file_contents[url_start..url_end]);
             i = url_end;
