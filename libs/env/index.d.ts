@@ -30,3 +30,5 @@ export const OFFLINE_CONTENT: boolean;
 export const FAKE_V1_API: boolean;
 export const SENTRY_DSN_BUILD: string;
 export const SAMPLE_SIGN_KEY: Buffer;
+export const GITHUB_ORG: string;
+export const CONTENT_ORIGIN: string;

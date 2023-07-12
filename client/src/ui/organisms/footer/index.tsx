@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import { ReactComponent as MDNLogo } from "../../../assets/mdn-footer-logo.svg";
 import { ReactComponent as MozLogo } from "../../../assets/moz-logo.svg";
-import { PLUS_IS_ENABLED } from "../../../env";
+import { PLUS_IS_ENABLED, GITHUB_ORG } from "../../../env";
 const DARK_NAV_ROUTES = [/\/plus\/?$/i];
 
 export function Footer() {
@@ -35,7 +35,7 @@ export function Footer() {
             <li>
               <a
                 className="icon icon-github-mark-small"
-                href="https://github.com/mdn/"
+                href={`https://github.com/${GITHUB_ORG}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

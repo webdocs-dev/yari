@@ -1,4 +1,5 @@
 import { Doc } from "../../../libs/types/document";
+import { GITHUB_ORG, CONTENT_ORIGIN } from "../env";
 
 export function OnGitHubLink({ doc }: { doc: Doc }) {
   return (
@@ -24,7 +25,7 @@ export function OnGitHubLink({ doc }: { doc: Doc }) {
       </ul>
       Want to get more involved?{" "}
       <a
-        href={`https://github.com/${process.env.GITHUB_ORG}/content/blob/main/CONTRIBUTING.md`}
+        href={`https://github.com/${GITHUB_ORG}/content/blob/main/CONTRIBUTING.md`}
         title={`This will take you to our contribution guidelines on GitHub.`}
         target="_blank"
         rel="noopener noreferrer"
@@ -62,7 +63,7 @@ const METADATA_TEMPLATE = `
 <summary>Page report details</summary>
 
 * Folder: \`$FOLDER\`
-* MDN URL: ${process.env.CONTENT_ORIGIN}$PATHNAME
+* MDN URL: ${CONTENT_ORIGIN}$PATHNAME
 * GitHub URL: $GITHUB_URL
 * Last commit: $LAST_COMMIT_URL
 * Document last modified: $DATE
@@ -93,20 +94,19 @@ function NewIssueOnGitHubLink({
 }) {
   const { locale } = doc;
   const url = new URL("https://github.com/");
-  const github_org = process.env.GITHUB_ORG;
   const sp = new URLSearchParams();
 
   url.pathname =
     locale !== "en-US"
-      ? `/${github_org}/translated-content/issues/new`
-      : `/${github_org}/content/issues/new`;
+      ? `/${GITHUB_ORG}/translated-content/issues/new`
+      : `/${GITHUB_ORG}/content/issues/new`;
   sp.set(
     "template",
     locale !== "en-US"
       ? `page-report-${locale.toLowerCase()}.yml`
       : "page-report.yml"
   );
-  sp.set("mdn-url", `${process.env.CONTENT_ORIGIN}${doc.mdn_url}`);
+  sp.set("mdn-url", `${CONTENT_ORIGIN}${doc.mdn_url}`);
   sp.set("metadata", fillMetadata(METADATA_TEMPLATE, doc));
 
   url.search = sp.toString();
