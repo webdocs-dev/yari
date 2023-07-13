@@ -82,7 +82,9 @@ export const CONTRIBUTOR_SPOTLIGHT_ROOT = correctContentPathFromEnv(
 
 export const BLOG_ROOT = correctContentPathFromEnv("BLOG_ROOT");
 
-export const GITHUB_ORG = process.env.GITHUB_ORG;
+export const GITHUB_ORG = process.env.GITHUB_ORG || "mdn";
+export const CONTENT_ORIGIN =
+  process.env.CONTENT_ORIGIN || "https://developer.mozilla.org";
 
 // This makes it possible to know, give a root folder, what is the name of
 // the repository on GitHub.
@@ -97,7 +99,7 @@ export const REPOSITORY_URLS = {
 export const ROOTS = [CONTENT_ROOT];
 if (CONTENT_TRANSLATED_ROOT) {
   ROOTS.push(CONTENT_TRANSLATED_ROOT);
-  REPOSITORY_URLS[CONTENT_TRANSLATED_ROOT] = `${GITHUB_ORG}translated-content`;
+  REPOSITORY_URLS[CONTENT_TRANSLATED_ROOT] = `${GITHUB_ORG}/translated-content`;
 }
 
 function correctContentPathFromEnv(envVarName) {

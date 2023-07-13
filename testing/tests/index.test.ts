@@ -4,8 +4,6 @@ import path from "node:path";
 import cheerio from "cheerio";
 import imagesize from "image-size";
 
-import "dotenv/config";
-
 const { default: sizeOf } = imagesize;
 
 import type {
@@ -14,6 +12,8 @@ import type {
   ProseSection,
   SpecificationsSection,
 } from "../../libs/types/document.js";
+
+import { CONTENT_ORIGIN } from "../../libs/env/index.js";
 
 const buildRoot = path.join("client", "build");
 
@@ -118,7 +118,7 @@ test("content built foo page", () => {
   // Every page, should have a `link[rel=canonical]` whose `href` always
   // starts with the value of $CONTENT_ORIGIN and ends with doc's URL.
   expect($("link[rel=canonical]").attr("href")).toBe(
-    `${process.env.CONTENT_ORIGIN}${doc.mdn_url}`
+    `${CONTENT_ORIGIN}${doc.mdn_url}`
   );
 
   expect($('meta[name="robots"]').attr("content")).toBe("index, follow");
@@ -140,8 +140,8 @@ test("content built foo page", () => {
   // The domain is hardcoded because the URL needs to be absolute and when
   // building static assets for Dev or Stage, you don't know what domain is
   // going to be used.
-  expect(toEnUSURL).toBe(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/Foo`);
-  expect(toFrURL).toBe(`${process.env.CONTENT_ORIGIN}/fr/docs/Web/Foo`);
+  expect(toEnUSURL).toBe(`${CONTENT_ORIGIN}/en-US/docs/Web/Foo`);
+  expect(toFrURL).toBe(`${CONTENT_ORIGIN}/fr/docs/Web/Foo`);
 
   // The h4 heading in there has its ID transformed to lowercase
   expect($("main h4").attr("id")).toBe($("main h4").attr("id").toLowerCase());
@@ -601,16 +601,14 @@ test("broken links flaws", () => {
   expect(map.get("/en-US/docs/Hopeless/Case").suggestion).toBeNull();
   expect(map.get("/en-US/docs/Web/CSS/dumber").line).toBe(10);
   expect(map.get("/en-US/docs/Web/CSS/dumber").column).toBe(13);
+  expect(map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/API/Blob`).suggestion).toBe(
+    "/en-US/docs/Web/API/Blob"
+  );
   expect(
-    map.get(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/API/Blob`).suggestion
-  ).toBe("/en-US/docs/Web/API/Blob");
-  expect(
-    map.get(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/API/Blob#Anchor`)
-      .suggestion
+    map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/API/Blob#Anchor`).suggestion
   ).toBe("/en-US/docs/Web/API/Blob#Anchor");
   expect(
-    map.get(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/API/Blob?a=b`)
-      .suggestion
+    map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/API/Blob?a=b`).suggestion
   ).toBe("/en-US/docs/Web/API/Blob?a=b");
   expect(map.get("/en-us/DOCS/Web/api/BLOB").suggestion).toBe(
     "/en-US/docs/Web/API/Blob"
@@ -660,16 +658,14 @@ test("broken links markdown flaws", () => {
   expect(map.get("/en-US/docs/Hopeless/Case").suggestion).toBeNull();
   expect(map.get("/en-US/docs/Web/CSS/dumber").line).toBe(9);
   expect(map.get("/en-US/docs/Web/CSS/dumber").column).toBe(1);
+  expect(map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/API/Blob`).suggestion).toBe(
+    "/en-US/docs/Web/API/Blob"
+  );
   expect(
-    map.get(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/API/Blob`).suggestion
-  ).toBe("/en-US/docs/Web/API/Blob");
-  expect(
-    map.get(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/API/Blob#Anchor`)
-      .suggestion
+    map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/API/Blob#Anchor`).suggestion
   ).toBe("/en-US/docs/Web/API/Blob#Anchor");
   expect(
-    map.get(`${process.env.CONTENT_ORIGIN}/en-US/docs/Web/API/Blob?a=b`)
-      .suggestion
+    map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/API/Blob?a=b`).suggestion
   ).toBe("/en-US/docs/Web/API/Blob?a=b");
   expect(map.get("/en-us/DOCS/Web/api/BLOB").suggestion).toBe(
     "/en-US/docs/Web/API/Blob"
@@ -1018,9 +1014,7 @@ test("image flaws kitchen sink", () => {
   expect(flaw.line).toBe(49);
   expect(flaw.column).toBe(13);
 
-  flaw = map.get(
-    `${process.env.CONTENT_ORIGIN}/en-US/docs/Web/Images/screenshot.png`
-  );
+  flaw = map.get(`${CONTENT_ORIGIN}/en-US/docs/Web/Images/screenshot.png`);
   expect(flaw.explanation).toBe("Unnecessarily absolute URL");
   expect(flaw.suggestion).toBe("screenshot.png");
   expect(flaw.line).toBe(54);

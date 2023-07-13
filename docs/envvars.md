@@ -16,6 +16,21 @@ the ability to go from viewing a rendered document to opening the source in your
 preferred editor. It's needed for the "Edit this page in your editor" button to
 work.
 
+### `GITHUB_ORG`
+
+#### Default: `mdn`
+
+The GitHub user or organization which hosts the docs. It will be linked to in
+various places, and is used to fetch recent contributions (see
+`fetchRecentContributions` in `build/spas.ts`). It should have the repositories
+`yari`, `content`, and `translated-content`.
+
+### `CONTENT_ORIGIN`
+
+#### Default: `https://developer.mozilla.org`
+
+The Origin (scheme+host+port, with no trailing slash) URL where the docs are being hosted.
+
 ## Builder
 
 For the builder, a lot of environment variables can be overridden with CLI

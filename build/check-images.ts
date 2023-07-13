@@ -8,11 +8,10 @@ import imagesize from "image-size";
 
 import { Document, FileAttachment } from "../content/index.js";
 import { FLAW_LEVELS, DEFAULT_LOCALE } from "../libs/constants/index.js";
+import { CONTENT_ORIGIN } from "../libs/env/index.js";
 import { findMatchesInText } from "./matches-in-text.js";
 import * as cheerio from "cheerio";
 import { Doc } from "../libs/types/document.js";
-
-import "dotenv/config";
 
 const { default: sizeOf } = imagesize;
 
@@ -112,7 +111,7 @@ export function checkImageReferences(
             explanation: "Insecure URL",
             suggestion: absoluteURL.toString(),
           });
-        } else if (absoluteURL.origin === process.env.CONTENT_ORIGIN) {
+        } else if (absoluteURL.origin === CONTENT_ORIGIN) {
           // Suppose they typed this:
           // <img src=https://developer.mozilla.org/en-US/docs/Foo/img.png>
           // and the current page you're on is /en-US/docs/Foo then the

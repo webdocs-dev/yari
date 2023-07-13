@@ -2,7 +2,7 @@
 
 Fork of Yari which removes AI help "features".
 
-You can view it on the Web here: https://mdn.pommicket.com
+You can view it on the Web at [https://webdocs.dev](https://webdocs.dev)
 
 ## Quickstart
 
