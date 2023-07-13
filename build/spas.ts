@@ -33,8 +33,6 @@ import { findByURL } from "../content/document.js";
 import { buildDocument } from "./index.js";
 import { findPostBySlug } from "./blog.js";
 
-export const GITHUB_ORG = process.env.GITHUB_ORG;
-
 const FEATURED_ARTICLES = [
   "blog/regular-expressions-reference-updates/",
   "blog/aria-accessibility-html-landmark-roles/",
