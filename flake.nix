@@ -28,6 +28,7 @@
 
           # Other tools
           git
+          rustc
         ];
       };
     });
