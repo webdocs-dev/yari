@@ -10,16 +10,15 @@ import { SearchIndex } from "../build/index.js";
 import { isValidLocale } from "../libs/locale-utils/index.js";
 
 interface DocAttributes {
-  title: string;
   locale: string;
   slug: string;
 }
 
-function getSearchIndex(localeLC) {
-  const dir = localeLC === "en-us" ? CONTENT_ROOT : CONTENT_TRANSLATED_ROOT;
-  if (!dir) return undefined;
-  const searchIndex = new SearchIndex();
-  const root = path.join(dir, localeLC);
+function populateSearchIndex(searchIndex, localeLC) {
+  const root = path.join(
+    localeLC === "en-us" ? CONTENT_ROOT : CONTENT_TRANSLATED_ROOT,
+    localeLC
+  );
   const locale = VALID_LOCALES.get(localeLC);
   const api = new fdir().withFullPaths().withErrors().crawl(root);
   for (const filePath of api.sync() as PathsOutput) {
@@ -34,29 +33,7 @@ function getSearchIndex(localeLC) {
     const doc = { metadata, url };
     searchIndex.add(doc);
   }
-  return searchIndex;
 }
-
-function getSearchIndexes() {
-  const map: Map<string, SearchIndex> = new Map();
-
-  for (const locale of VALID_LOCALES.keys()) {
-    const label = `Populate search-index for ${locale}`;
-    console.time(label);
-    const searchIndex = getSearchIndex(locale);
-    if (searchIndex) {
-      searchIndex.sort();
-      map.set(locale, searchIndex);
-    }
-    console.timeEnd(label);
-  }
-  return map;
-}
-
-// building the search index can take some time,
-// so we cache it. mdn/yari opts not to do this because
-// if you're editing the site the cache can become stale.
-const searchIndexes: Map<string, SearchIndex> = getSearchIndexes();
 
 export async function searchIndexRoute(req, res) {
   // Remember, this is always in lowercase because of a middleware
@@ -66,12 +43,29 @@ export async function searchIndexRoute(req, res) {
     res.status(500).send("CONTENT_TRANSLATE_ROOT not set\n");
     return;
   }
-  const searchIndex = searchIndexes.get(locale);
-  if (!searchIndex) {
+  if (!isValidLocale(locale)) {
     res.status(500).send(`unrecognized locale ${locale}`);
     return;
   }
 
+  // The advantage of creating the search index over and over on every
+  // request is that it can't possible cache itself stale.
+  // Imagine if a user just seconds ago created a page, and reaches for
+  // the search widget and can't find what they just created.
+  // Or perhaps they edited a title and expect that to turn up.
+
+  // However, if this is causing a problem, we can easily turn on some
+  // caching. Either `Cache-Control` on the response.
+  // Or, we can make this `searchIndex` a module global so it's reused
+  // repeatedly until the server is restarted.
+
+  const searchIndex = new SearchIndex();
+
+  const label = "Populate search-index";
+  console.time(label);
+  populateSearchIndex(searchIndex, locale);
+  searchIndex.sort();
+  console.timeEnd(label);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.json(searchIndex.getItems()[locale]);
 }
