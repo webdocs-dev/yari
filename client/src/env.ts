@@ -102,6 +102,10 @@ export const GLEAN_ENABLED = Boolean(
   JSON.parse(process.env.REACT_APP_GLEAN_ENABLED || "false")
 );
 
+export const SURVEYS_ENABLED = Boolean(
+  JSON.parse(process.env.REACT_APP_SURVEYS_ENABLED || "false")
+);
+
 export function survey_duration(surveyBucket: string): {
   start: number;
   end: number;

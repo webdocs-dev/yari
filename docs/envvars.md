@@ -29,7 +29,8 @@ various places, and is used to fetch recent contributions (see
 
 #### Default: `https://developer.mozilla.org`
 
-The Origin (scheme+host+port, with no trailing slash) URL where the docs are being hosted.
+The Origin (scheme+host+port, with no trailing slash) URL where the docs are
+being hosted.
 
 ## Builder
 
@@ -344,6 +345,12 @@ included this value for `geo.country`.
   - Be aware of flipping this between true/false as any persisted metrics,
     events and pings (other than first_run_date and first_run_hour) are cleared.
     [More info](https://mozilla.github.io/glean/book/reference/general/initializing.html#when-upload-is-disabled)
+
+### `REACT_APP_SURVEYS_ENABLED`
+
+**Default: `false`**
+
+If enabled, surveys will be presented on documentation pages.
 
 ### REACT_APP_PLAYGROUND_BASE_HOST
 
