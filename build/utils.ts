@@ -227,7 +227,7 @@ export function injectLoadingLazyAttributes($) {
 export function postProcessExternalLinks($) {
   $("a[href^=http]").each((i, element) => {
     const $a = $(element);
-    if ($a.attr("href").startsWith(process.env.CONTENT_ORIGIN)) {
+    if ($a.attr("href").startsWith(process.env.REACT_APP_CONTENT_ORIGIN)) {
       // This should have been removed since it's considered a flaw.
       // But we haven't applied all fixable flaws yet and we still have to
       // support translated content which is quite a long time away from

@@ -4,8 +4,6 @@ import path from "node:path";
 import cheerio from "cheerio";
 import imagesize from "image-size";
 
-import "dotenv/config";
-
 const { default: sizeOf } = imagesize;
 
 import type {

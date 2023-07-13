@@ -1,5 +1,5 @@
 import { Doc } from "../../../libs/types/document";
-import { GITHUB_ORG, CONTENT_ORIGIN } from "../env";
+import { CONTENT_ORIGIN } from "../env";
 
 export function OnGitHubLink({ doc }: { doc: Doc }) {
   return (
@@ -25,7 +25,7 @@ export function OnGitHubLink({ doc }: { doc: Doc }) {
       </ul>
       Want to get more involved?{" "}
       <a
-        href={`https://github.com/${GITHUB_ORG}/content/blob/main/CONTRIBUTING.md`}
+        href={`https://github.com/mdn/content/blob/main/CONTRIBUTING.md`}
         title={`This will take you to our contribution guidelines on GitHub.`}
         target="_blank"
         rel="noopener noreferrer"
@@ -94,13 +94,12 @@ function NewIssueOnGitHubLink({
 }) {
   const { locale } = doc;
   const url = new URL("https://github.com/");
-  const github_org = process.env.GITHUB_ORG;
   const sp = new URLSearchParams();
 
   url.pathname =
     locale !== "en-US"
-      ? `/${GITHUB_ORG}/translated-content/issues/new`
-      : `/${GITHUB_ORG}/content/issues/new`;
+      ? `/mdn/translated-content/issues/new`
+      : `/mdn/content/issues/new`;
   sp.set(
     "template",
     locale !== "en-US"
