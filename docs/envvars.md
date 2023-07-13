@@ -29,7 +29,7 @@ various places, and is used to fetch recent contributions (see
 
 #### Default: `https://developer.mozilla.org`
 
-The URL where the docs are being hosted.
+The Origin (scheme+host+port, with no trailing slash) URL where the docs are being hosted.
 
 ## Builder
 
