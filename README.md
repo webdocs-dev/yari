@@ -110,9 +110,10 @@ When you embark on making a change, do it on a new branch, for example
 
 ## Hosting the docs as a static site
 
-After copying `.env-dist` to `.env`, add `DEFAULT_LOCALE=en-us` to your `.env`
-(this is needed to ensure that pages are linked to as `/en-us/...` rather than
-`/en-US/...` from the homepage).
+After copying `.env-dist` to `.env`, change the `REACT_APP_DEFAULT_LOCALE` value
+in your `.env` to `en-us` (or to the lowercase version of whatever other locale
+you want to use as the default). This is needed to ensure that pages are linked
+to from the homepage as `/en-us/...` rather than `/en-US/...`).
 
 First run
 
@@ -132,6 +133,7 @@ Then you can just host the directory `client/build` using a static server. Make
 sure you set the 404 page to `en-us/_spas/404.html` (this file includes a hack
 to convert URLs with uppercase letters to lowercase so that e.g.
 `/en-US/docs/Web` works).
+
 ```
 
 If the build fails with an error message about running out of memory, try
@@ -145,21 +147,16 @@ server to be case insensitive.
 For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 
 ```
+
 # (as root from the directory of yari)
-rm -rf /var/www/mdn
-mkdir -p /var/www
-cp -r client/build /var/www/mdn
-cat <<EOF > /etc/apache2/sites-available/mdn-web-docs.conf
-<VirtualHost *:5042>
-    DocumentRoot /var/www/mdn
-    ErrorLog /var/log/apache2/error.log
-    ErrorDocument 404 /en-us/_spas/404.html
-</VirtualHost>
-<Directory /var/www/mdn>
-    RemoveHandler .var
-</Directory>
-EOF
-ln -sf ../sites-available/mdn-web-docs.conf /etc/apache2/sites-enabled/mdn-web-docs.conf
+
+rm -rf /var/www/mdn mkdir -p /var/www cp -r client/build /var/www/mdn cat
+<<EOF > /etc/apache2/sites-available/mdn-web-docs.conf <VirtualHost \*:5042>
+DocumentRoot /var/www/mdn ErrorLog /var/log/apache2/error.log ErrorDocument 404
+/en-us/\_spas/404.html </VirtualHost> <Directory /var/www/mdn> RemoveHandler
+.var </Directory> EOF ln -sf ../sites-available/mdn-web-docs.conf
+/etc/apache2/sites-enabled/mdn-web-docs.conf
+
 ```
 
 Then add `Listen 5042` to `/etc/apache2/ports.conf` next to `Listen 80`, and run
@@ -363,3 +360,4 @@ The default server port `:5042` might be in use by another process. To resolve
 this, you can pick any unused port (e.g., 6000) and run the following:
 
     echo SERVER_PORT=6000 >> .env
+```

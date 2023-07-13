@@ -9,8 +9,6 @@ import got from "got";
 
 import { m2h } from "../markdown/index.js";
 
-import * as dotenv from "dotenv";
-
 import {
   VALID_LOCALES,
   MDN_PLUS_TITLE,
@@ -21,7 +19,6 @@ import {
   CONTENT_TRANSLATED_ROOT,
   CONTRIBUTOR_SPOTLIGHT_ROOT,
   BUILD_OUT_ROOT,
-  GITHUB_ORG,
 } from "../libs/env/index.js";
 import { isValidLocale } from "../libs/locale-utils/index.js";
 import { DocFrontmatter, NewsItem } from "../libs/types/document.js";
@@ -377,7 +374,7 @@ async function fetchGitHubPRs(repo, count = 5) {
 }
 
 async function fetchRecentContributions() {
-  const repos = [`${GITHUB_ORG}/content`, `${GITHUB_ORG}/translated-content`];
+  const repos = [`mdn/content`, `mdn/translated-content`];
   const countPerRepo = 5;
   const pullRequests = (
     await Promise.all(
