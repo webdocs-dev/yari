@@ -23,6 +23,14 @@ work.
 The Origin (scheme+host+port, with no trailing slash) URL where the docs are
 being hosted.
 
+### `REACT_APP_DEFAULT_LOCALE`
+
+#### Default: `en-US`
+
+The default locale. Only used when hosting the docs as a static site, to ensure
+that pages are linked to as `/en-us/...` (rather than `/en-US/`) from the
+homepage).
+
 ## Builder
 
 For the builder, a lot of environment variables can be overridden with CLI
