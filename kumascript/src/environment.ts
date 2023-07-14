@@ -45,6 +45,8 @@ import pagePrototype from "./api/page.js";
 import info from "./info.js";
 import Templates from "./templates.js";
 
+import { DEFAULT_LOCALE } from "../../libs/constants/index.js";
+
 export interface KumaThis {
   mdn: typeof mdnPrototype;
   wiki: typeof wikiPrototype;
@@ -139,6 +141,10 @@ export default class Environment {
     const web = Object.create(prepareProto(webPrototype, globals));
     const page = Object.create(prepareProto(pagePrototype, globals));
     const env = Object.create(prepareProto(perPageContext));
+
+    // DEFAULT_LOCALE is identical across all pages,
+    // so we don't need it in perPageContext
+    env.defaultLocale = DEFAULT_LOCALE;
 
     // The page object also gets some properties copied from
     // the per-page context object

@@ -43,21 +43,21 @@ prefixed with `CONTENT_`. E.g. `CONTENT_ROOT`
 
 **Default: `../content/files`**
 
-Path to the content files, cloned from https://github.com/mdn/content.
+Path to the content files, cloned from <https://github.com/mdn/content>.
 
 ### `CONTENT_TRANSLATED_ROOT`
 
 **Default: `../translated-content/files`**
 
 Path to the translated content files, cloned from
-https://github.com/mdn/translated-content.
+<https://github.com/mdn/translated-content>.
 
 ### `CONTRIBUTOR_SPOTLIGHT_ROOT`
 
 **Default: `../mdn-contributor-spotlight/contributors`**
 
 Path to the contributor spotlight content, cloned from
-https://github.com/mdn/mdn-contributor-spotlight.
+<https://github.com/mdn/mdn-contributor-spotlight>.
 
 ### `BUILD_FOLDERSEARCH`
 
@@ -130,19 +130,16 @@ information about fixable flaws instead of actually fixing it on disk.
 
 ### `BUILD_LIVE_SAMPLES_BASE_URL`
 
-**Default: `https://live.mdnplay.dev`**
+**Default: `''`**
 
 When generating live samples `<iframe>` tags, the `src` attribute gets this set
 as a prefix. The ultimate reason why it's meant to be different is because the
 security of the `iframe`'s content has not been audited as carefully as the rest
 of the site.
 
-When doing local development, it's recommended to set this to
-`http://localhost:5042` in your personal `.env`.
-
 ### `BUILD_LEGACY_LIVE_SAMPLES_BASE_URL`
 
-**Default: `https://live-samples.mdn.mozilla.net`**
+**Default: `''`**
 
 Used to serve legacy lives samples that do not support playground rendering.
 
@@ -353,7 +350,7 @@ If enabled, surveys will be presented on documentation pages.
 
 ### REACT_APP_PLAYGROUND_BASE_HOST
 
-**Default: mdnplay.dev**
+**Default: `mdnplay.dev`**
 
 - Sets the host name for the playground iframe. Set this to `localhost:5042`
   when working on playground functionality.

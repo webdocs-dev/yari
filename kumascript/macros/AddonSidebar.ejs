@@ -162,9 +162,8 @@ async function renderItem(slug) {
 async function getPageLinkAndTitle(slug) {
   let link = `/${env.locale}${slug}`;
   let page = await wiki.getPage(link);
-
-  if (!page.title && env.locale !== 'en-US') {
-    link = `/en-US${slug}`;
+  if (!page.title && env.locale !== env.defaultLocale) {
+    link = `/${env.defaultLocale}${slug}`;
     page = await wiki.getPage(link);
   }
 
