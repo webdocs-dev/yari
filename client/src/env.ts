@@ -57,6 +57,10 @@ export const PLUS_IS_ENABLED = Boolean(
   JSON.parse(process.env.REACT_APP_ENABLE_PLUS || "false")
 );
 
+export const BLOG_IS_ENABLED = Boolean(
+  JSON.parse(process.env.REACT_APP_ENABLE_BLOG || "false")
+);
+
 export const NEWSLETTER_ENABLED = Boolean(
   JSON.parse(process.env.REACT_APP_NEWSLETTER_ENABLED || "false")
 );
