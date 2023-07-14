@@ -33,11 +33,9 @@ Before you can start working with Yari, you need to:
     [translated-content](https://github.com/mdn/translated-content) repository
     if translations are desired:
 
-    ```
-    git clone https://github.com/webdocs-dev/yari
-    git clone https://github.com/mdn/content
-    # git clone https://github.com/mdn/translated-content
-    ```
+        git clone https://github.com/webdocs-dev/yari
+        git clone https://github.com/mdn/content
+        # git clone https://github.com/mdn/translated-content
 
 <!-- markdownlint-enable list-marker-space -->
 
@@ -45,7 +43,7 @@ To run Yari locally, you'll first need to install its dependencies and build the
 app locally. Do this like so:
 
     cd yari
-    cp -r libs cloud-function/src/internal # (missing from mdn/yari but seems to be necessary?)
+    cp -r libs cloud-function/src/internal # (not in mdn/yari but seems needed?)
     yarn install
 
 Now copy the `.env-dist` file to `.env`:
@@ -112,13 +110,11 @@ When you embark on making a change, do it on a new branch, for example
 
 After copying `.env-dist` to `.env`, run
 
-```
-yarn build:prepare
-yarn build:dist
-yarn build # (this will take a long time)
-rustc scripts/fix-urls.rs -O -o scripts/fix-urls
-scripts/fix-urls
-```
+    yarn build:prepare
+    yarn build:dist
+    yarn build # (this will take a long time)
+    rustc scripts/fix-urls.rs -O -o scripts/fix-urls
+    scripts/fix-urls
 
 If the build fails with an error message about running out of memory, try
 setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'`
@@ -131,23 +127,21 @@ to convert URLs with uppercase letters to lowercase so that e.g.
 
 For example, you can host MDN web docs on port 5042 using Apache2 as follows:
 
-```
-# (as root from the directory of yari)
-rm -rf /var/www/mdn
-mkdir -p /var/www
-cp -r client/build /var/www/mdn
-cat <<EOF > /etc/apache2/sites-available/mdn-web-docs.conf
-<VirtualHost *:5042>
-    DocumentRoot /var/www/mdn
-    ErrorLog /var/log/apache2/error.log
-    ErrorDocument 404 /en-us/_spas/404.html
-</VirtualHost>
-<Directory /var/www/mdn>
-    RemoveHandler .var
-</Directory>
-EOF
-ln -sf ../sites-available/mdn-web-docs.conf /etc/apache2/sites-enabled/mdn-web-docs.conf
-```
+    # (as root from the directory of yari)
+    rm -rf /var/www/mdn
+    mkdir -p /var/www
+    cp -r client/build /var/www/mdn
+    cat <<EOF > /etc/apache2/sites-available/mdn-web-docs.conf
+    <VirtualHost *:5042>
+        DocumentRoot /var/www/mdn
+        ErrorLog /var/log/apache2/error.log
+        ErrorDocument 404 /en-us/_spas/404.html
+    </VirtualHost>
+    <Directory /var/www/mdn>
+        RemoveHandler .var
+    </Directory>
+    EOF
+    ln -sf ../sites-available/mdn-web-docs.conf /etc/apache2/sites-enabled/mdn-web-docs.conf
 
 Then add `Listen 5042` to `/etc/apache2/ports.conf` next to `Listen 80`, and run
 `systemctl restart apache2`.
