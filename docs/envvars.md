@@ -130,19 +130,16 @@ information about fixable flaws instead of actually fixing it on disk.
 
 ### `BUILD_LIVE_SAMPLES_BASE_URL`
 
-**Default: `https://live.mdnplay.dev`**
+**Default: `''`**
 
 When generating live samples `<iframe>` tags, the `src` attribute gets this set
 as a prefix. The ultimate reason why it's meant to be different is because the
 security of the `iframe`'s content has not been audited as carefully as the rest
 of the site.
 
-When doing local development, it's recommended to set this to
-`http://localhost:5042` in your personal `.env`.
-
 ### `BUILD_LEGACY_LIVE_SAMPLES_BASE_URL`
 
-**Default: `https://live-samples.mdn.mozilla.net`**
+**Default: `''`**
 
 Used to serve legacy lives samples that do not support playground rendering.
 
