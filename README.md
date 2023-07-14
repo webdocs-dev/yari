@@ -34,7 +34,7 @@ Before you can start working with Yari, you need to:
     if translations are desired:
 
     ```
-    git clone https://github.com/MDN-Community-Fork/yari
+    git clone https://github.com/webdocs-dev/yari
     git clone https://github.com/mdn/content
     # git clone https://github.com/mdn/translated-content
     ```
