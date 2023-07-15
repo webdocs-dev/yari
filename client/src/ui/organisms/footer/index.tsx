@@ -4,17 +4,38 @@ import { useLocation } from "react-router-dom";
 
 import { ReactComponent as MDNLogo } from "../../../assets/mdn-footer-logo.svg";
 import { ReactComponent as MozLogo } from "../../../assets/moz-logo.svg";
-import { PLUS_IS_ENABLED, BLOG_IS_ENABLED } from "../../../env";
+import { PLUS_IS_ENABLED, BLOG_IS_ENABLED, ORGANIZATION } from "../../../env";
 const DARK_NAV_ROUTES = [/\/plus\/?$/i];
 
-export function Footer() {
+function Copyright() {
   const locale = useLocale();
+
+  return (
+    <>
+      Portions of this content are ©1998–{new Date().getFullYear()} by
+      individual contributors. Content available under{" "}
+      <a
+        href={`/${locale}/docs/MDN/Writing_guidelines/Attrib_copyright_license`}
+      >
+        a Creative Commons license
+      </a>
+      .
+    </>
+  );
+}
+
+function useFooterClass() {
   const location = useLocation();
   const route = location.pathname.substring(location.pathname.indexOf("/", 1));
   const dark = DARK_NAV_ROUTES.some((r) => route.match(r));
+  return `page-footer${dark ? " dark" : ""}`;
+}
+
+function MDNFooter() {
+  const locale = useLocale();
 
   return (
-    <footer id="nav-footer" className={`page-footer${dark ? " dark" : ""}`}>
+    <footer id="nav-footer" className={useFooterClass()}>
       <div className="page-footer-grid">
         <div className="page-footer-logo-col">
           <a href="/" className="mdn-footer-logo" aria-label="MDN homepage">
@@ -35,22 +56,24 @@ export function Footer() {
             <li>
               <a
                 className="icon icon-github-mark-small"
-                href={`https://github.com/mdn`}
+                href="https://github.com/mdn"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <span className="visually-hidden">MDN on GitHub</span>
               </a>
             </li>
-            <li>
-              <a
-                className="icon icon-feed"
-                href="/en-US/blog/rss.xml"
-                target="_blank"
-              >
-                <span className="visually-hidden">MDN Blog RSS Feed</span>
-              </a>
-            </li>
+            {BLOG_IS_ENABLED && (
+              <li>
+                <a
+                  className="icon icon-feed"
+                  href="/en-US/blog/rss.xml"
+                  target="_blank"
+                >
+                  <span className="visually-hidden">MDN Blog RSS Feed</span>
+                </a>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -239,17 +262,103 @@ export function Footer() {
             </a>
             .
             <br />
-            Portions of this content are ©1998–{new Date().getFullYear()} by
-            individual mozilla.org contributors. Content available under{" "}
-            <a
-              href={`/${locale}/docs/MDN/Writing_guidelines/Attrib_copyright_license`}
-            >
-              a Creative Commons license
-            </a>
-            .
+            <Copyright />
           </p>
         </div>
       </div>
     </footer>
   );
+}
+
+function WebdocsDevFooter() {
+  const locale = useLocale();
+
+  return (
+    <footer id="nav-footer" className={useFooterClass()}>
+      <div className="page-footer-grid">
+        <div className="page-footer-logo-col">
+          <a
+            href="/"
+            className="mdn-footer-logo"
+            aria-label="webdocs.dev homepage"
+          >
+            webdocs.dev
+          </a>
+          <ul className="social-icons">
+            <li>
+              <a
+                className="icon icon-github-mark-small"
+                href="https://github.com/webdocs-dev"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="visually-hidden">GitHub</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="page-footer-nav-col-1">
+          <h2 className="footer-nav-heading">Support</h2>
+          <ul className="footer-nav-list">
+            <li className="footer-nav-item">
+              <a
+                className="footer-nav-link"
+                href={`/${locale}/docs/MDN/Community/Issues`}
+              >
+                Report an issue
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="page-footer-nav-col-2">
+          <h2 className="footer-nav-heading">Our communities</h2>
+          <ul className="footer-nav-list">
+            <li className="footer-nav-item">
+              <a
+                className="footer-nav-link"
+                href="https://discord.gg/Yqg6TYDzss"
+              >
+                Discord
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="page-footer-nav-col-3">
+          <h2 className="footer-nav-heading">Developers</h2>
+          <ul className="footer-nav-list">
+            <li className="footer-nav-item">
+              <a className="footer-nav-link" href={`/${locale}/docs/Web`}>
+                Web Technologies
+              </a>
+            </li>
+            <li className="footer-nav-item">
+              <a className="footer-nav-link" href={`/${locale}/docs/Learn`}>
+                Learn Web Development
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="page-footer-legal">
+          <p id="license" className="page-footer-legal-text">
+            <Copyright />
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export function Footer() {
+  switch (ORGANIZATION) {
+    case "mdn":
+      return <MDNFooter />;
+    case "webdocs.dev":
+      return <WebdocsDevFooter />;
+    default:
+      return null;
+  }
 }
