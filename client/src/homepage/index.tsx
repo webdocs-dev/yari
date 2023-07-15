@@ -5,6 +5,7 @@ import { LatestNews } from "./latest-news";
 import RecentContributions from "./recent-contributions";
 import { ContributorSpotlight } from "./contributor-spotlight";
 import { HpFooterPlacement, HpMainPlacement } from "../ui/organisms/placement";
+import { BLOG_IS_ENABLED } from "../env";
 
 export function Homepage(props) {
   return (
@@ -13,7 +14,7 @@ export function Homepage(props) {
         <HomepageHero />
         <HpMainPlacement />
         <FeaturedArticles {...props} />
-        <LatestNews {...props} />
+        {BLOG_IS_ENABLED && <LatestNews {...props} />}
         <RecentContributions {...props} />
         <ContributorSpotlight {...props} />
         <HpFooterPlacement />

@@ -8,6 +8,8 @@ export const DISABLE_AUTH = Boolean(
   JSON.parse(process.env.REACT_APP_DISABLE_AUTH || "false")
 );
 
+export const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "mdn";
+
 /** Deprecated, don't export, use WRITER_MODE and/or DEV_MODE instead. */
 const CRUD_MODE =
   process.env.REACT_APP_WRITER_MODE || process.env.REACT_APP_DEV_MODE

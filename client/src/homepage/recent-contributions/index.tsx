@@ -28,7 +28,7 @@ function RecentContributions(props: HydrationData<any>) {
     }
   );
 
-  return hyData?.recentContributions ? (
+  return hyData?.recentContributions?.items ? (
     <section className="recent-contributions">
       <h2>Recent contributions</h2>
       <ul className="contribution-list">
