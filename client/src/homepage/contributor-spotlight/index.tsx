@@ -29,25 +29,21 @@ export function ContributorSpotlight(props: HydrationData<any>) {
     }
   );
 
-  return (
+  return hyData && hyData?.featuredContributor ? (
     <div className="contributor-spotlight dark">
       <div className="wrapper">
         <div className="text-col">
           <h3>Contributor Spotlight</h3>
-          {hyData && hyData?.featuredContributor && (
-            <>
-              <a
-                className="contributor-name"
-                href={hyData?.featuredContributor?.url}
-              >
-                {hyData?.featuredContributor?.contributorName}
-              </a>
-              <blockquote>
-                <Icon name="quote"></Icon>
-                {hyData?.featuredContributor?.quote}
-              </blockquote>
-            </>
-          )}
+          <a
+            className="contributor-name"
+            href={hyData?.featuredContributor?.url}
+          >
+            {hyData?.featuredContributor?.contributorName}
+          </a>
+          <blockquote>
+            <Icon name="quote"></Icon>
+            {hyData?.featuredContributor?.quote}
+          </blockquote>
           <a href="/en-US/community" className="spotlight-cta">
             Get involved →
           </a>
@@ -63,5 +59,5 @@ export function ContributorSpotlight(props: HydrationData<any>) {
       </div>
       <Mandala />
     </div>
-  );
+  ) : null;
 }
