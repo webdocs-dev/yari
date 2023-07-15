@@ -19,6 +19,7 @@ import {
   CONTENT_TRANSLATED_ROOT,
   CONTRIBUTOR_SPOTLIGHT_ROOT,
   BUILD_OUT_ROOT,
+  BLOG_IS_ENABLED,
 } from "../libs/env/index.js";
 import { isValidLocale } from "../libs/locale-utils/index.js";
 import { DocFrontmatter, NewsItem } from "../libs/types/document.js";
@@ -299,7 +300,7 @@ export async function buildSPAs(options: {
                   tag: parents.length > 2 ? parents[1] : null,
                 };
               }
-            } else if (segment === "blog") {
+            } else if (segment === "blog" && BLOG_IS_ENABLED) {
               const post = await findPostBySlug(
                 getSlugByBlogPostUrl(`/${DEFAULT_LOCALE}/${url}`)
               );

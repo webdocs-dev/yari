@@ -309,6 +309,12 @@ make sense to present the "Fix fixable flaws" button for example.
 
 Determines if the MDN++ SPA should be reachable or not.
 
+### `REACT_APP_ENABLE_BLOG`
+
+**Default: `false`**
+
+Determines if the MDN blog should be reachable or not.
+
 ### `REACT_APP_DEFAULT_GEO_COUNTRY`
 
 **Default: `United States`**

@@ -81,6 +81,9 @@ export const CONTRIBUTOR_SPOTLIGHT_ROOT = correctContentPathFromEnv(
 );
 
 export const BLOG_ROOT = correctContentPathFromEnv("BLOG_ROOT");
+export const BLOG_IS_ENABLED = JSON.parse(
+  process.env.REACT_APP_ENABLE_BLOG || "false"
+);
 
 export const CONTENT_ORIGIN =
   process.env.REACT_APP_CONTENT_ORIGIN || "https://developer.mozilla.org";
