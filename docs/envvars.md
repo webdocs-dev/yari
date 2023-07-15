@@ -43,21 +43,21 @@ prefixed with `CONTENT_`. E.g. `CONTENT_ROOT`
 
 **Default: `../content/files`**
 
-Path to the content files, cloned from https://github.com/mdn/content.
+Path to the content files, cloned from <https://github.com/mdn/content>.
 
 ### `CONTENT_TRANSLATED_ROOT`
 
 **Default: `../translated-content/files`**
 
 Path to the translated content files, cloned from
-https://github.com/mdn/translated-content.
+<https://github.com/mdn/translated-content>.
 
 ### `CONTRIBUTOR_SPOTLIGHT_ROOT`
 
 **Default: `../mdn-contributor-spotlight/contributors`**
 
 Path to the contributor spotlight content, cloned from
-https://github.com/mdn/mdn-contributor-spotlight.
+<https://github.com/mdn/mdn-contributor-spotlight>.
 
 ### `BUILD_FOLDERSEARCH`
 
@@ -312,6 +312,12 @@ make sense to present the "Fix fixable flaws" button for example.
 
 Determines if the MDN++ SPA should be reachable or not.
 
+### `REACT_APP_ENABLE_BLOG`
+
+**Default: `false`**
+
+Determines if the MDN blog should be reachable or not.
+
 ### `REACT_APP_DEFAULT_GEO_COUNTRY`
 
 **Default: `United States`**
@@ -353,7 +359,7 @@ If enabled, surveys will be presented on documentation pages.
 
 ### REACT_APP_PLAYGROUND_BASE_HOST
 
-**Default: mdnplay.dev**
+**Default: `mdnplay.dev`**
 
 - Sets the host name for the playground iframe. Set this to `localhost:5042`
   when working on playground functionality.
