@@ -108,7 +108,51 @@ async function searchWithAPI(url, ga) {
 }
 
 async function searchWithPagefind(params) {
-  throw new Error("no such: " + params.get("q"));
+  const startTime = new Date().getTime();
+  const locale = params.get("locale");
+  const pagefind = await eval(
+    "import(`/static/js/pagefind/${locale}/pagefind.js`)"
+  );
+  const search = await pagefind.search(params.get("q"));
+  const resultsPerPage = 10;
+  const page = params.get("page") ?? 1;
+  const startIndex = (page - 1) * resultsPerPage;
+  const results =
+    startIndex >= 0
+      ? await Promise.all(
+          search.results
+            .slice(startIndex, startIndex + resultsPerPage)
+            .map((r) => r.data())
+        )
+      : [];
+  const documents = results.map((result) => {
+    return {
+      mdn_url: result.url,
+      title: result.meta.title,
+      // note: summary is unused when highlight is non-empty
+      // and we don't have a good way of getting a summary
+      // without doing quite a bit of work
+      // (in particular, result.meta.content has HTML tags)
+      summary: "",
+      highlight: {
+        title: [],
+        body: [result.excerpt],
+      },
+    };
+  });
+  return {
+    documents,
+    metadata: {
+      took_ms: new Date().getTime() - startTime,
+      size: results.length,
+      page,
+      total: {
+        value: search.results.length,
+        relation: "eq",
+      },
+    },
+    suggestions: [],
+  };
 }
 
 export default function SearchResults() {

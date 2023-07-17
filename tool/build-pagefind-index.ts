@@ -35,11 +35,13 @@ export async function runBuildPagefindIndex(options) {
             `${BUILD_OUT_ROOT}/${locale}/docs`,
             "--force-language",
             locale,
+            "--bundle-dir",
+            `${BUILD_OUT_ROOT}/static/js/pagefind/${locale}`,
           ],
           { stdio: "inherit" }
         ).on("exit", (code, signal) => {
           if (code === 0) {
-            resolve();
+            resolve(null);
           } else if (signal) {
             reject(`Process terminated with signal ${signal}`);
           } else {
