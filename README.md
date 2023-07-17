@@ -108,10 +108,11 @@ When you embark on making a change, do it on a new branch, for example
 
 ## Hosting the docs as a static site
 
-After copying `.env-dist` to `.env`, run
+Make sure you have [Rust](https://rust-lang.org) installed. Then after copying
+`.env-dist` to `.env`, run
 
-    yarn build:prepare
     yarn build:dist
+    yarn build:prepare
     yarn build:static # (this will take a long time)
 
 If the build fails with an error message about running out of memory, try

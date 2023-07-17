@@ -20,11 +20,14 @@ const LANGUAGES = new Map(
   })
 );
 
-const SORT_OPTIONS = [
-  ["best", "Best"],
-  ["relevance", "Relevance"],
-  ["popularity", "Popularity"],
-];
+const SORT_OPTIONS =
+  SEARCH_BACKEND === "pagefind"
+    ? null
+    : [
+        ["best", "Best"],
+        ["relevance", "Relevance"],
+        ["popularity", "Popularity"],
+      ];
 
 type Highlight = {
   body?: string[];
@@ -109,15 +112,18 @@ async function searchWithAPI(url, ga) {
 
 async function searchWithPagefind(params) {
   const startTime = new Date().getTime();
-  const locale = params.get("locale");
+  const locale = params.get("locale").toLowerCase();
   // eval stops {webpack/react/typescript/g-d knows what else}
   // from messing with this or complaining that the module doesn't exist.
+  // eslint-disable-next-line no-eval
   const pagefind = await eval(
+    // eslint-disable-next-line no-template-curly-in-string
     "import(`/static/js/pagefind/${locale}/pagefind.js`)"
   );
   const search = await pagefind.search(params.get("q"));
   const resultsPerPage = 10;
-  const page = params.get("page") ?? 1;
+  let page = parseInt(params.get("page"));
+  if (page <= 0 || isNaN(page)) page = 1;
   const startIndex = (page - 1) * resultsPerPage;
   const results =
     startIndex >= 0
@@ -129,7 +135,7 @@ async function searchWithPagefind(params) {
       : [];
   const documents = results.map((result) => {
     return {
-      mdn_url: result.url,
+      mdn_url: `/${locale}/docs${result.url}`,
       title: result.meta.title,
       // note: summary is unused when highlight is non-empty
       // and we don't have a good way of getting a summary
@@ -280,6 +286,7 @@ function RemoteSearchWarning() {
 
 function SortOptions() {
   const [searchParams] = useSearchParams();
+  if (!SORT_OPTIONS) return null;
   const querySort = searchParams.get("sort") || SORT_OPTIONS[0][0];
   return (
     <div className="sort-options">
