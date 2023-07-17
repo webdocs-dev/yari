@@ -3,7 +3,7 @@ import { createSearchParams, Link, useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 
 import { Loading } from "../ui/atoms/loading";
-import { WRITER_MODE, KUMA_HOST } from "../env";
+import { WRITER_MODE, KUMA_HOST, SEARCH_BACKEND } from "../env";
 import { useLocale } from "../hooks";
 import { appendURL } from "./utils";
 import { Button } from "../ui/atoms/button";
@@ -84,6 +84,33 @@ class ServerOperationalError extends Error {
   }
 }
 
+async function searchWithAPI(url, ga) {
+  const response = await fetch(url);
+  if (response.status === 400) {
+    const badRequest = await response.json();
+    throw new BadRequestError(badRequest.errors);
+  } else if (response.status >= 500) {
+    throw new ServerOperationalError(response.status);
+  } else if (!response.ok) {
+    throw new Error(`${response.status} on ${url}`);
+  }
+
+  // See docs/experiments/0001_site-search-x-cache.md
+  const xCacheHeaderValue = response.headers.get("x-cache");
+  ga("send", {
+    hitType: "event",
+    eventCategory: "Site-search X-Cache",
+    eventAction: url,
+    eventLabel: xCacheHeaderValue || "no value",
+  });
+
+  return await response.json();
+}
+
+async function searchWithPagefind(params) {
+  throw new Error("no such: " + params.get("q"));
+}
+
 export default function SearchResults() {
   const ga = useGA();
   const [searchParams] = useSearchParams();
@@ -102,26 +129,16 @@ export default function SearchResults() {
   const { data, error } = useSWR(
     fetchURL,
     async (url) => {
-      const response = await fetch(url);
-      if (response.status === 400) {
-        const badRequest = await response.json();
-        throw new BadRequestError(badRequest.errors);
-      } else if (response.status >= 500) {
-        throw new ServerOperationalError(response.status);
-      } else if (!response.ok) {
-        throw new Error(`${response.status} on ${url}`);
+      switch (SEARCH_BACKEND) {
+        case "api":
+          return await searchWithAPI(url, ga);
+        case "pagefind":
+          return await searchWithPagefind(sp);
+        default:
+          return {
+            error: `Bad value for REACT_APP_SEARCH_BACKEND: ${SEARCH_BACKEND}`,
+          };
       }
-
-      // See docs/experiments/0001_site-search-x-cache.md
-      const xCacheHeaderValue = response.headers.get("x-cache");
-      ga("send", {
-        hitType: "event",
-        eventCategory: "Site-search X-Cache",
-        eventAction: url,
-        eventLabel: xCacheHeaderValue || "no value",
-      });
-
-      return await response.json();
     },
     {
       revalidateOnFocus: process.env.NODE_ENV === "development",
