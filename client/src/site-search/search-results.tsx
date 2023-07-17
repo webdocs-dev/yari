@@ -110,6 +110,8 @@ async function searchWithAPI(url, ga) {
 async function searchWithPagefind(params) {
   const startTime = new Date().getTime();
   const locale = params.get("locale");
+  // eval stops {webpack/react/typescript/g-d knows what else}
+  // from messing with this or complaining that the module doesn't exist.
   const pagefind = await eval(
     "import(`/static/js/pagefind/${locale}/pagefind.js`)"
   );

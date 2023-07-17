@@ -35,6 +35,7 @@ import { runMakePopularitiesFile } from "./popularities.js";
 import { runOptimizeClientBuild } from "./optimize-client-build.js";
 import { runBuildRobotsTxt } from "./build-robots-txt.js";
 import { runBuildPagefindIndex } from "./build-pagefind-index.js";
+import { runFixUrlsForStaticHosting } from "./fix-urls-for-static-hosting.js";
 import { syncAllTranslatedContent } from "./sync-translated-content.js";
 import { macroUsageReport } from "./macro-usage-report.js";
 import * as kumascript from "../kumascript/index.js";
@@ -1014,6 +1015,16 @@ if (Mozilla && !Mozilla.dntEnabled()) {
   .action(
     tryOrExit(async ({ options }) => {
       await buildSPAs(options);
+    })
+  )
+
+  .command(
+    "fix-urls-for-static-hosting",
+    "Fix links, etc. in the `yarn build` output so that it can be hosted statically"
+  )
+  .action(
+    tryOrExit(async ({ options }) => {
+      runFixUrlsForStaticHosting(options);
     })
   )
 

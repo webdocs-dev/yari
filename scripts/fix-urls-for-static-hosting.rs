@@ -19,12 +19,15 @@ specifically:
 
 use std::borrow::Cow;
 use std::fs::{self, read_dir};
+use std::env;
 use std::path::PathBuf;
 use std::process::ExitCode;
 
-const BUILD_DIR: &str = "client/build";
+struct Options {
+  build_dir: String,
+}
 
-fn process_file(path_buf: &PathBuf) -> Result<(), String> {
+fn process_file(options: &Options, path_buf: &PathBuf) -> Result<(), String> {
     let path = path_buf
         .to_str()
         .ok_or_else(|| format!("Path {} contains invalid UTF-8", path_buf.to_string_lossy()))?;
@@ -61,7 +64,7 @@ fn process_file(path_buf: &PathBuf) -> Result<(), String> {
         let mut runner = path_buf.clone();
         runner.pop();
         runner.push("runner.html");
-        fs::copy(format!("{BUILD_DIR}/runner.html"), &runner).map_err(|e| {
+        fs::copy(format!("{}/runner.html", options.build_dir), &runner).map_err(|e| {
             format!(
                 "error copying runner.html to {}: {e}",
                 runner.to_string_lossy()
@@ -126,7 +129,7 @@ fn process_file(path_buf: &PathBuf) -> Result<(), String> {
     Ok(())
 }
 
-fn process_directory(path: &PathBuf) -> Result<(), String> {
+fn process_directory(options: &Options, path: &PathBuf) -> Result<(), String> {
     println!("processing {}...", path.to_str().unwrap_or("<bad UTF-8>"));
     let dir = read_dir(path)
         .map_err(|e| format!("Can't read directory {}: {e}", path.to_string_lossy()))?;
@@ -140,7 +143,7 @@ fn process_directory(path: &PathBuf) -> Result<(), String> {
             )
         })?;
         if file_type.is_dir() {
-            process_directory(&entry.path())?;
+            process_directory(options, &entry.path())?;
         } else if file_type.is_file() {
             if entry.file_name() == "metadata.json" {
                 // i don't think these are ever needed, and they take up 700MB
@@ -148,19 +151,19 @@ fn process_directory(path: &PathBuf) -> Result<(), String> {
                     format!("Couldn't remove {}: {e}", entry.path().to_string_lossy())
                 })?;
             } else {
-                process_file(&entry.path())?;
+                process_file(options, &entry.path())?;
             }
         }
     }
     Ok(())
 }
 
-fn process404() -> Result<(), String> {
+fn process404(options: &Options) -> Result<(), String> {
     // add lowercase conversion to 404 page
     // we could just do this in client/src/page-not-found/index.tsx,
     // but then the script element wouldn't be at the very top of the page,
     // so some parts of the actual 404 page would start loading.
-    let path = format!("{BUILD_DIR}/en-us/_spas/404.html");
+    let path = format!("{}/en-us/_spas/404.html", options.build_dir);
     let contents = fs::read_to_string(&path).map_err(|e| format!("error reading {path}: {e}"))?;
     if contents.find("// idempotency").is_some() {
         // make sure we don't add the <script> twice if this program is run twice
@@ -180,8 +183,8 @@ if (newHref !== prevHref)
     Ok(())
 }
 
-fn process_main_js() -> Result<(), String> {
-    let dir_path = format!("{BUILD_DIR}/static/js");
+fn process_main_js(options: &Options) -> Result<(), String> {
+    let dir_path = format!("{}/static/js", options.build_dir);
     let dir = fs::read_dir(&dir_path).map_err(|e| format!("error reading {dir_path}: {e}"))?;
     let mut paths = vec![];
     // find the file called main.something.js
@@ -228,9 +231,16 @@ fn process_main_js() -> Result<(), String> {
 }
 
 fn try_main() -> Result<(), String> {
-    process_main_js()?;
-    process404()?;
-    process_directory(&BUILD_DIR.to_string().into())?;
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+      return Err(format!("expected exactly one argument (path to build), got {}", args.len() - 1));
+    }
+    let options = Options {
+      build_dir: args[1].clone()
+    };
+    process_main_js(&options)?;
+    process404(&options)?;
+    process_directory(&options, &options.build_dir.to_string().into())?;
     Ok(())
 }
 

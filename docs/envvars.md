@@ -370,7 +370,7 @@ displayed in the footer, etc. Acceptable values are `"mdn"` and `"webdocs.dev"`.
 
 ### `REACT_APP_SEARCH_BACKEND`
 
-**Default: `api`**
+**Default: `"api"`**
 
 Which backend to use for site search. Acceptable values are `"api"` and
 `"pagefind"`.

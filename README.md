@@ -112,9 +112,7 @@ After copying `.env-dist` to `.env`, run
 
     yarn build:prepare
     yarn build:dist
-    yarn build # (this will take a long time)
-    rustc scripts/fix-urls.rs -O -o scripts/fix-urls
-    scripts/fix-urls
+    yarn build:static # (this will take a long time)
 
 If the build fails with an error message about running out of memory, try
 setting the environment variable `NODE_OPTIONS='--max-old-space-size=4096'`

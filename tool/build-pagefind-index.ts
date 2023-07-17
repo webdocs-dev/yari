@@ -1,9 +1,12 @@
 import fs from "node:fs";
+import process from "node:process";
 import { spawn } from "node:child_process";
 import { VALID_LOCALES } from "../libs/constants/index.js";
 import { BUILD_OUT_ROOT } from "../libs/env/index.js";
 
 export async function runBuildPagefindIndex(options) {
+  const parallel =
+    options.parallel || process.env.BUILD_PAGEFIND_INDEX_PARALLEL === "true";
   try {
     fs.accessSync(`${BUILD_OUT_ROOT}/index.html`, fs.constants.R_OK);
   } catch (e) {
@@ -49,7 +52,7 @@ export async function runBuildPagefindIndex(options) {
           }
         });
       });
-      if (options.parallel) {
+      if (parallel) {
         promises.push(promise);
       } else {
         await promise;
@@ -57,7 +60,7 @@ export async function runBuildPagefindIndex(options) {
     }
   }
 
-  // if options.parallel is false, this will be empty
+  // if parallel is false, this will be empty
   await Promise.all(promises);
 
   if (!anyBuilt) {
