@@ -30,9 +30,8 @@ export async function runBuildPagefindIndex(options) {
       console.log(`Building index for ${locale}...`);
       const promise = new Promise((resolve, reject) => {
         spawn(
-          "npx",
+          "yarn",
           [
-            "-y",
             "pagefind",
             "--source",
             `${BUILD_OUT_ROOT}/${locale}/docs`,
