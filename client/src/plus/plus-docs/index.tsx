@@ -89,6 +89,8 @@ function PlusDocs({ ...props }) {
   const locale = useLocale();
   const { "*": slug } = useParams();
 
+  const sidebarHeader = <PlusDocsNav />;
+
   return (
     <StaticPage
       {...{
@@ -96,7 +98,7 @@ function PlusDocs({ ...props }) {
         locale,
         slug: `plus/docs/${slug}`,
         title: MDN_PLUS_TITLE,
-        sidebarHeader: <PlusDocsNav />,
+        sidebarHeader,
         fallbackData: props.hyData ? props : undefined,
       }}
     />
