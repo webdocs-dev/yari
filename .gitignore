@@ -24,33 +24,29 @@ __pycache__/
 .idea/
 
 *.log
+*.js.map
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /kumascript/coverage/
 /kumascript/node_modules/
 /testing/node_modules/
-/build/*.js
-/build/*.js.map
+/build/**/*.js
+/kumascript/**/*.js
 /client/build
 /client/src/**/*.js
-/client/src/**/*.js.map
 /content/*.js
-/content/*.js.map
 /filecheck/*.js
-/filecheck/*.js.map
 /kumascript/*.js
-/kumascript/*.js.map
-/markdown/*.js
-/markdown/*.js.map
+!/kumascript/src/parser.js
+/markdown/**/*.js
 /server/*.js
-/server/*.js.map
 /ssr/dist/
 /ssr/*.js
+/libs/types/*.js
+/type-fixes/*.js
 !/ssr/webpack.config.js
-/ssr/*.js.map
 /tool/*.js
-/tool/*.js.map
 
 # These are an effect of the dumper still producing all locales
 # We haven't decided what to do with them but for now we're *not*
