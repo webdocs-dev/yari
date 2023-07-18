@@ -122,8 +122,7 @@ async function searchWithPagefind(params) {
   );
   const search = await pagefind.search(params.get("q"));
   const resultsPerPage = 10;
-  let page = parseInt(params.get("page"));
-  if (page <= 0 || isNaN(page)) page = 1;
+  const page = parseInt(params.get("page")) || 1;
   const startIndex = (page - 1) * resultsPerPage;
   const results =
     startIndex >= 0

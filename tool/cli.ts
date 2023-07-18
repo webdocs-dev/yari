@@ -1023,8 +1023,8 @@ if (Mozilla && !Mozilla.dntEnabled()) {
     "Fix links, etc. in the `yarn build` output so that it can be hosted statically"
   )
   .action(
-    tryOrExit(async ({ options }) => {
-      runFixUrlsForStaticHosting(options);
+    tryOrExit(async () => {
+      runFixUrlsForStaticHosting();
     })
   )
 

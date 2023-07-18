@@ -1,10 +1,9 @@
-import child_process, { spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
-import util from "node:util";
 
 import { BUILD_OUT_ROOT } from "../libs/env/index.js";
 
-export function runFixUrlsForStaticHosting(options) {
+export function runFixUrlsForStaticHosting() {
   const sourcePath = "./scripts/fix-urls-for-static-hosting.rs";
   const binPath = "./scripts/fix-urls-for-static-hosting";
   const sourceStat = fs.statSync(sourcePath);
