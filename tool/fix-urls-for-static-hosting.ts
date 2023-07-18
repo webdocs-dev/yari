@@ -8,7 +8,7 @@ export function runFixUrlsForStaticHosting(options) {
   const sourcePath = "./scripts/fix-urls-for-static-hosting.rs";
   const binPath = "./scripts/fix-urls-for-static-hosting";
   const sourceStat = fs.statSync(sourcePath);
-  const binStat = fs.statSync(binPath);
+  const binStat = fs.statSync(binPath, { throwIfNoEntry: false });
   if (!binStat || sourceStat.mtimeMs > binStat.mtimeMs) {
     // recompile if executable doesn't exist or
     // source is more recent than executable
