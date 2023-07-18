@@ -264,8 +264,9 @@ export default function SearchResults() {
 }
 
 function RemoteSearchWarning() {
-  if (WRITER_MODE) {
-    // If you're in WRITER_MODE, the search results will be proxied from a remote
+  if (WRITER_MODE && SEARCH_BACKEND !== "pagefind") {
+    // If you're in WRITER_MODE and SEARCH_BACKEND is not set to "pagefind",
+    // the search results will be proxied from a remote
     // Kuma and it might be confusing if a writer is wondering why their
     // actively worked-on content isn't showing up in searches.
     // The default value in the server is not accessible from the react app,
