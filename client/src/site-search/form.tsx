@@ -5,6 +5,7 @@ import { useLocale } from "../hooks";
 import { appendURL } from "./utils";
 
 import LANGUAGES_RAW from "../../../libs/languages";
+import { SEARCH_BACKEND } from "../env";
 
 const LANGUAGES = new Map(
   Object.entries(LANGUAGES_RAW).map(([locale, data]) => {
@@ -66,21 +67,24 @@ export default function SiteSearchForm() {
                 </Link>
               )}
             </li>
-            <li>
-              {queryLocales.length === 2 &&
-              equalLocales(queryLocales, [locale, "en-us"]) ? (
-                <i>Both</i>
-              ) : (
-                <Link
-                  to={`?${appendURL(searchParams, {
-                    locale: [locale, "en-US"],
-                    page: undefined,
-                  })}`}
-                >
-                  Both
-                </Link>
-              )}
-            </li>
+            {/* we don't have a good way of merging search results with pagefind */}
+            {SEARCH_BACKEND !== "pagefind" && (
+              <li>
+                {queryLocales.length === 2 &&
+                equalLocales(queryLocales, [locale, "en-us"]) ? (
+                  <i>Both</i>
+                ) : (
+                  <Link
+                    to={`?${appendURL(searchParams, {
+                      locale: [locale, "en-US"],
+                      page: undefined,
+                    })}`}
+                  >
+                    Both
+                  </Link>
+                )}
+              </li>
+            )}
           </ul>
         </div>
       )}
