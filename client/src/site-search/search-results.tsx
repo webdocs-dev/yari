@@ -3,7 +3,7 @@ import { createSearchParams, Link, useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 
 import { Loading } from "../ui/atoms/loading";
-import { WRITER_MODE, KUMA_HOST } from "../env";
+import { WRITER_MODE, KUMA_HOST, SEARCH_BACKEND } from "../env";
 import { useLocale } from "../hooks";
 import { appendURL } from "./utils";
 import { Button } from "../ui/atoms/button";
@@ -20,11 +20,14 @@ const LANGUAGES = new Map(
   })
 );
 
-const SORT_OPTIONS = [
-  ["best", "Best"],
-  ["relevance", "Relevance"],
-  ["popularity", "Popularity"],
-];
+const SORT_OPTIONS =
+  SEARCH_BACKEND === "pagefind"
+    ? null
+    : [
+        ["best", "Best"],
+        ["relevance", "Relevance"],
+        ["popularity", "Popularity"],
+      ];
 
 type Highlight = {
   body?: string[];
@@ -84,6 +87,81 @@ class ServerOperationalError extends Error {
   }
 }
 
+async function searchWithAPI(url, ga) {
+  const response = await fetch(url);
+  if (response.status === 400) {
+    const badRequest = await response.json();
+    throw new BadRequestError(badRequest.errors);
+  } else if (response.status >= 500) {
+    throw new ServerOperationalError(response.status);
+  } else if (!response.ok) {
+    throw new Error(`${response.status} on ${url}`);
+  }
+
+  // See docs/experiments/0001_site-search-x-cache.md
+  const xCacheHeaderValue = response.headers.get("x-cache");
+  ga("send", {
+    hitType: "event",
+    eventCategory: "Site-search X-Cache",
+    eventAction: url,
+    eventLabel: xCacheHeaderValue || "no value",
+  });
+
+  return await response.json();
+}
+
+async function searchWithPagefind(params) {
+  const startTime = new Date().getTime();
+  const locale = params.get("locale").toLowerCase();
+  // eval stops {webpack/react/typescript/g-d knows what else}
+  // from messing with this or complaining that the module doesn't exist.
+  // eslint-disable-next-line no-eval
+  const pagefind = await eval(
+    // eslint-disable-next-line no-template-curly-in-string
+    "import(`/static/js/pagefind/${locale}/pagefind.js`)"
+  );
+  const search = await pagefind.search(params.get("q"));
+  const resultsPerPage = 10;
+  const page = parseInt(params.get("page")) || 1;
+  const startIndex = (page - 1) * resultsPerPage;
+  const results =
+    startIndex >= 0
+      ? await Promise.all(
+          search.results
+            .slice(startIndex, startIndex + resultsPerPage)
+            .map((r) => r.data())
+        )
+      : [];
+  const documents = results.map((result) => {
+    return {
+      mdn_url: `/${locale}/docs${result.url}`,
+      title: result.meta.title,
+      // note: summary is unused when highlight is non-empty
+      // and we don't have a good way of getting a summary
+      // without doing quite a bit of work
+      // (in particular, result.meta.content has HTML tags)
+      summary: "",
+      highlight: {
+        title: [],
+        body: [result.excerpt],
+      },
+    };
+  });
+  return {
+    documents,
+    metadata: {
+      took_ms: new Date().getTime() - startTime,
+      size: results.length,
+      page,
+      total: {
+        value: search.results.length,
+        relation: "eq",
+      },
+    },
+    suggestions: [],
+  };
+}
+
 export default function SearchResults() {
   const ga = useGA();
   const [searchParams] = useSearchParams();
@@ -102,26 +180,16 @@ export default function SearchResults() {
   const { data, error } = useSWR(
     fetchURL,
     async (url) => {
-      const response = await fetch(url);
-      if (response.status === 400) {
-        const badRequest = await response.json();
-        throw new BadRequestError(badRequest.errors);
-      } else if (response.status >= 500) {
-        throw new ServerOperationalError(response.status);
-      } else if (!response.ok) {
-        throw new Error(`${response.status} on ${url}`);
+      switch (SEARCH_BACKEND) {
+        case "api":
+          return await searchWithAPI(url, ga);
+        case "pagefind":
+          return await searchWithPagefind(sp);
+        default:
+          return {
+            error: `Bad value for REACT_APP_SEARCH_BACKEND: ${SEARCH_BACKEND}`,
+          };
       }
-
-      // See docs/experiments/0001_site-search-x-cache.md
-      const xCacheHeaderValue = response.headers.get("x-cache");
-      ga("send", {
-        hitType: "event",
-        eventCategory: "Site-search X-Cache",
-        eventAction: url,
-        eventLabel: xCacheHeaderValue || "no value",
-      });
-
-      return await response.json();
     },
     {
       revalidateOnFocus: process.env.NODE_ENV === "development",
@@ -195,8 +263,9 @@ export default function SearchResults() {
 }
 
 function RemoteSearchWarning() {
-  if (WRITER_MODE) {
-    // If you're in WRITER_MODE, the search results will be proxied from a remote
+  if (WRITER_MODE && SEARCH_BACKEND !== "pagefind") {
+    // If you're in WRITER_MODE and SEARCH_BACKEND is not set to "pagefind",
+    // the search results will be proxied from a remote
     // Kuma and it might be confusing if a writer is wondering why their
     // actively worked-on content isn't showing up in searches.
     // The default value in the server is not accessible from the react app,
@@ -217,6 +286,7 @@ function RemoteSearchWarning() {
 
 function SortOptions() {
   const [searchParams] = useSearchParams();
+  if (!SORT_OPTIONS) return null;
   const querySort = searchParams.get("sort") || SORT_OPTIONS[0][0];
   return (
     <div className="sort-options">
