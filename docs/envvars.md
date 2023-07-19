@@ -354,16 +354,23 @@ included this value for `geo.country`.
 
 If enabled, surveys will be presented on documentation pages.
 
-### REACT_APP_PLAYGROUND_BASE_HOST
+### `REACT_APP_PLAYGROUND_BASE_HOST`
 
 **Default: `mdnplay.dev`**
 
 - Sets the host name for the playground iframe. Set this to `localhost:5042`
   when working on playground functionality.
 
-### REACT_APP_ORGANIZATION
+### `REACT_APP_ORGANIZATION`
 
 **Default: `"mdn"`**
 
 The organization which is hosting the docs — this determines which links are
 displayed in the footer, etc. Acceptable values are `"mdn"` and `"webdocs.dev"`.
+
+### `REACT_APP_SEARCH_BACKEND`
+
+**Default: `"api"`**
+
+Which backend to use for site search. Acceptable values are `"api"` and
+`"pagefind"`.
