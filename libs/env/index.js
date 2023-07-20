@@ -87,6 +87,7 @@ export const BLOG_IS_ENABLED = JSON.parse(
 
 export const CONTENT_ORIGIN =
   process.env.REACT_APP_CONTENT_ORIGIN || "https://developer.mozilla.org";
+export const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "mdn";
 
 // This makes it possible to know, give a root folder, what is the name of
 // the repository on GitHub.

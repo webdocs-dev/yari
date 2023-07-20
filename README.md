@@ -299,11 +299,9 @@ fix it.
 
 ## Icons and logos
 
-The various formats and sizes of the favicon are generated from the file
-`mdn-web-docs.svg` in the repository root. This file is then converted to
-favicons using [realfavicongenerator.net](https://realfavicongenerator.net/). To
-generate new favicons, edit or replace the `mdn-web-docs.svg` file and then
-re-upload that to realfavicongenerator.net.
+The favicon is generated from `client/src/assets/m-icon.svg` or
+`client/src/assets/webdocs-dev-logo.svg` according to `REACT_APP_ORGANIZATION`.
+These are automatically converted to png and ico files by `yarn build:prepare`.
 
 ## Contact
 
