@@ -172,3 +172,4 @@ export const FAKE_V1_API = JSON.parse(process.env.SERVER_FAKE_V1_API || false);
 export const SAMPLE_SIGN_KEY = process.env.BUILD_SAMPLE_SIGN_KEY
   ? Buffer.from(process.env.BUILD_SAMPLE_SIGN_KEY, "base64")
   : null;
+export const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "mdn";

@@ -21,14 +21,14 @@
       rel="search"
       type="application/opensearchdescription+xml"
       href="/opensearch.xml"
-      title="MDN Web Docs"
+      title="%SITE_NAME%"
     />
 
-    <title>MDN Web Docs</title>
+    <title>%SITE_NAME%</title>
     <meta name="SSR_DATA" />
     <meta
       name="description"
-      content="The MDN Web Docs site provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and progressive web apps."
+      content="The %SITE_NAME% site provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and progressive web apps."
     />
 
     <!--
@@ -50,18 +50,18 @@
       Remember, all of these are *default* values. The actual values are processed in
       ssr/render.js and uses cheerio to replace the content on all of these.
     -->
-    <meta property="og:url" content="https://developer.mozilla.org" />
-    <meta property="og:title" content="MDN Web Docs" />
+    <meta property="og:url" content="%CONTENT_ORIGIN%" />
+    <meta property="og:title" content="%SITE_NAME%" />
     <meta property="og:locale" content="en-US" />
     <meta
       property="og:description"
-      content="The MDN Web Docs site provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and progressive web apps."
+      content="The %SITE_NAME% site provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and progressive web apps."
     />
-    <meta property="og:image" content="%PUBLIC_URL%/mdn-social-share.png" />
+    <meta property="og:image" content="%ORGANIZATION%-social-share.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content="MozDevNet" />
 
-    <link rel="canonical" href="https://developer.mozilla.org" />
+    <link rel="canonical" href="%CONTENT_ORIGIN%" />
     <style media="print">
       .mdn-cta-container,
       .article-actions-container,
