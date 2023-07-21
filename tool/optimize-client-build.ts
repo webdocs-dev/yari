@@ -9,6 +9,8 @@ import path from "node:path";
 import cheerio from "cheerio";
 import md5File from "md5-file";
 
+import { CONTENT_ORIGIN } from "../libs/env/index.js";
+
 export async function runOptimizeClientBuild(buildRoot) {
   const indexHtmlFilePath = path.join(buildRoot, "index.html");
   const indexHtml = fs.readFileSync(indexHtmlFilePath, "utf-8");
@@ -36,7 +38,7 @@ export async function runOptimizeClientBuild(buildRoot) {
       // Yes, this makes it a bit weird to use a build of this on a dev,
       // stage, preview, or a local build. Especially if the hashed URL doesn't
       // always work. But it's a fair price to pay.
-      hrefPrefix = "https://developer.mozilla.org";
+      hrefPrefix = CONTENT_ORIGIN;
     } else {
       href = element.attribs.href;
       if (!href) {

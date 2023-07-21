@@ -15,6 +15,7 @@ import printBuildError from "react-dev-utils/printBuildError.js";
 
 import configFactory from "../config/webpack.config.js";
 import paths from "../config/paths.js";
+import { buildFavicons } from "./build-favicons.js";
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -43,6 +44,8 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 const argv = process.argv.slice(2);
 const writeStatsJson = argv.indexOf("--stats") !== -1;
+
+await buildFavicons();
 
 // Generate configuration
 const config = configFactory("production");
