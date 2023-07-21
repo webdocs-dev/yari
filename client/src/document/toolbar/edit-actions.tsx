@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { WRITER_MODE_HOSTNAMES } from "../../env";
+import { WRITER_MODE_HOSTNAMES, CONTENT_ORIGIN, ORGANIZATION } from "../../env";
 import { Source } from "../../../../libs/types/document";
 
 import "./edit-actions.scss";
@@ -78,11 +78,8 @@ export function EditActions({ source }: { source: Source }) {
       )}
 
       <li>
-        <a
-          href={`${process.env.CONTENT_ORIGIN}/${locale}/docs/${slug}`}
-          className="button"
-        >
-          View on MDN
+        <a href={`${CONTENT_ORIGIN}/${locale}/docs/${slug}`} className="button">
+          View on {ORGANIZATION}
         </a>
       </li>
 

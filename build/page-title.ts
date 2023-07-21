@@ -1,5 +1,6 @@
 import { Document } from "../content/index.js";
 import { Doc } from "../libs/types/document.js";
+import { ORGANIZATION } from "../libs/env/index.js";
 
 /**
  * Return the appropriate document title to go into the HTML <title>
@@ -23,7 +24,13 @@ export function getPageTitle(doc: Partial<Doc>) {
       title += ` - ${parentDoc.metadata.title}`;
     }
   }
-  return `${title} | MDN`;
+  const suffix = ORGANIZATION;
+  if (!suffix) {
+    throw new Error(
+      `${ORGANIZATION} is not defined. Make sure the value of REACT_APP_ORGANIZATION is correct.`
+    );
+  }
+  return `${title} | ${suffix}`;
 }
 
 // When traversing up to the root document, there are certain "roots"

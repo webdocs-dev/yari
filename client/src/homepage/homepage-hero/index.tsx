@@ -1,6 +1,7 @@
 import "./index.scss";
 import { Search } from "../../ui/molecules/search";
 import Mandala from "../../ui/molecules/mandala";
+import { ORGANIZATION } from "../../env";
 
 export function HomepageHero() {
   return (
@@ -11,8 +12,8 @@ export function HomepageHero() {
           <br /> by Developers
         </h1>
         <p>
-          Documenting web technologies, including CSS, HTML, and JavaScript,
-          since 2005.
+          Documenting web technologies, including CSS, HTML, and JavaScript
+          {ORGANIZATION === "MDN" && <>, since 2005</>}.
         </p>
         <Search id="hp-search" isHomepageSearch={true} />
       </section>
