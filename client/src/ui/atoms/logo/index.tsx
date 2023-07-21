@@ -5,6 +5,8 @@ import { useLocale } from "../../../hooks";
 import { ReactComponent as MDNDocsLogo } from "../../../assets/mdn-docs-logo.svg";
 import { ReactComponent as MDNPlusLogo } from "../../../assets/mdn-plus-logo.svg";
 import { ReactComponent as MDNLogo } from "../../../assets/mdn-logo.svg";
+import { ReactComponent as WebdocsDevLogo } from "../../../assets/webdocs-dev-logo.svg";
+import { ORGANIZATION } from "../../../env";
 
 import "./index.scss";
 import { isDocs, isPlus } from "../../../utils";
@@ -17,8 +19,10 @@ export function Logo() {
   const docs = isDocs(location.pathname);
 
   return (
-    <a href={`/${locale}/`} className="logo" aria-label="MDN homepage">
-      {(plus && <MDNPlusLogo />) || (docs && <MDNDocsLogo />) || <MDNLogo />}-{" "}
+    <a href={`/${locale}/`} className="logo" aria-label="Homepage">
+      {(ORGANIZATION === "webdocs.dev" && <WebdocsDevLogo />) ||
+        (plus && <MDNPlusLogo />) ||
+        (docs && <MDNDocsLogo />) || <MDNLogo />}
       <svg width="0" height="0">
         <defs>
           <linearGradient id="pride-gradient">

@@ -40,7 +40,19 @@ process.env.NODE_PATH = (process.env.NODE_PATH || "")
 // injected into the application via DefinePlugin in webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "MDN";
+
+// the name of the site as a human-readable string
+const SITE_NAMES = new Map([
+  ["MDN", "MDN Web Docs"],
+  ["webdocs.dev", "webdocs.dev"],
+]);
+
 function getClientEnvironment(publicUrl) {
+  const siteName = SITE_NAMES.get(ORGANIZATION);
+  if (!siteName) {
+    throw new Error(`Bad value for REACT_APP_ORGANIZATION: ${ORGANIZATION}`);
+  }
   const raw = Object.keys(process.env)
     .filter((key) => REACT_APP.test(key))
     .reduce(
@@ -52,6 +64,12 @@ function getClientEnvironment(publicUrl) {
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
         NODE_ENV: process.env.NODE_ENV || "development",
+        SITE_NAME: siteName,
+        ORGANIZATION,
+        SOCIAL_SHARE_IMAGE: ORGANIZATION.toLowerCase() + "-social-share.png",
+        CONTENT_ORIGIN:
+          process.env.REACT_APP_CONTENT_ORIGIN ||
+          "https://developer.mozilla.org",
         // Useful for resolving the correct path to static assets in `public`.
         // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
         // This should only be used as an escape hatch. Normally you would put

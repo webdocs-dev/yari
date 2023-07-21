@@ -1,8 +1,8 @@
 import sharp from "sharp";
 
-const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "mdn";
+const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "MDN";
 const ICONS = new Map([
-  ["mdn", "src/assets/m-icon.svg"],
+  ["MDN", "src/assets/m-icon.svg"],
   ["webdocs.dev", "src/assets/webdocs-dev-icon.svg"],
 ]);
 
