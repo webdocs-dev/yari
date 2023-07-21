@@ -124,28 +124,26 @@ sure you set the 404 page to `en-us/_spas/404.html` (this file includes a hack
 to convert URLs with uppercase letters to lowercase so that e.g.
 `/en-US/docs/Web` works).
 
-For example, you can host MDN web docs on port 5042 using Apache2 as follows:
+For example, you can host the web docs on port 5042 using Apache2 as follows:
 
     # (as root from the directory of yari)
-    rm -rf /var/www/mdn
+    rm -rf /var/www/web-docs
     mkdir -p /var/www
-    cp -r client/build /var/www/mdn
-    cat <<EOF > /etc/apache2/sites-available/mdn-web-docs.conf
-    <VirtualHost *:5042>
-        DocumentRoot /var/www/mdn
-        ErrorLog /var/log/apache2/error.log
-        ErrorDocument 404 /en-us/_spas/404.html
+    a2enmod alias
+    cp -r client/build /var/www/web-docs
+    cat <<EOF > /etc/apache2/sites-available/web-docs.conf
+    <VirtualHost *:80>
+        Alias /web-docs /var/www/web-docs
     </VirtualHost>
-    <Directory /var/www/mdn>
+    <Directory /var/www/web-docs>
         RemoveHandler .var
+        ErrorDocument 404 /en-us/_spas/404.html
     </Directory>
     EOF
-    ln -sf ../sites-available/mdn-web-docs.conf /etc/apache2/sites-enabled/mdn-web-docs.conf
+    ln -sf ../sites-available/web-docs.conf /etc/apache2/sites-enabled/web-docs.conf
+    systemctl restart apache2
 
-Then add `Listen 5042` to `/etc/apache2/ports.conf` next to `Listen 80`, and run
-`systemctl restart apache2`.
-
-Now you can visit `http://localhost:5042` to view MDN web docs offline.
+Now you can visit `http://localhost/web-docs` to view the web docs offline.
 
 ## License
 
