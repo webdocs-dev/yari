@@ -40,11 +40,11 @@ process.env.NODE_PATH = (process.env.NODE_PATH || "")
 // injected into the application via DefinePlugin in webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
-const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "mdn";
+const ORGANIZATION = process.env.REACT_APP_ORGANIZATION || "MDN";
 
 // the name of the site as a human-readable string
 const SITE_NAMES = new Map([
-  ["mdn", "MDN Web Docs"],
+  ["MDN", "MDN Web Docs"],
   ["webdocs.dev", "webdocs.dev"],
 ]);
 
@@ -66,6 +66,7 @@ function getClientEnvironment(publicUrl) {
         NODE_ENV: process.env.NODE_ENV || "development",
         SITE_NAME: siteName,
         ORGANIZATION,
+        SOCIAL_SHARE_IMAGE: ORGANIZATION.toLowerCase() + "-social-share.png",
         CONTENT_ORIGIN:
           process.env.REACT_APP_CONTENT_ORIGIN ||
           "https://developer.mozilla.org",

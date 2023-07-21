@@ -13,7 +13,7 @@ export function HomepageHero() {
         </h1>
         <p>
           Documenting web technologies, including CSS, HTML, and JavaScript
-          {ORGANIZATION === "mdn" && <>, since 2005</>}.
+          {ORGANIZATION === "MDN" && <>, since 2005</>}.
         </p>
         <Search id="hp-search" isHomepageSearch={true} />
       </section>
