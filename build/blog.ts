@@ -422,7 +422,7 @@ export async function buildBlogFeed(options: { verbose?: boolean }) {
     id: `${BASE_URL}/${locale}/blog/`,
     link: `${BASE_URL}/${locale}/blog/`,
     language: "en",
-    image: `${BASE_URL}/mdn-social-share.png`,
+    image: `${BASE_URL}/social-share.png`,
     favicon: `${BASE_URL}/favicon.ico`,
     copyright: "All rights reserved 2023, MDN",
   });

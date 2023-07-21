@@ -354,7 +354,7 @@ function WebdocsDevFooter() {
 
 export function Footer() {
   switch (ORGANIZATION) {
-    case "mdn":
+    case "MDN":
       return <MDNFooter />;
     case "webdocs.dev":
       return <WebdocsDevFooter />;
