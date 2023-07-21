@@ -66,6 +66,7 @@ function getClientEnvironment(publicUrl) {
         NODE_ENV: process.env.NODE_ENV || "development",
         SITE_NAME: siteName,
         ORGANIZATION,
+        SOCIAL_SHARE_IMAGE: ORGANIZATION.toLowerCase() + "-social-share.png",
         CONTENT_ORIGIN:
           process.env.REACT_APP_CONTENT_ORIGIN ||
           "https://developer.mozilla.org",
