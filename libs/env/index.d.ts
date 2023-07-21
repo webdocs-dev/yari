@@ -32,3 +32,4 @@ export const FAKE_V1_API: boolean;
 export const SENTRY_DSN_BUILD: string;
 export const SAMPLE_SIGN_KEY: Buffer;
 export const CONTENT_ORIGIN: string;
+export const ORGANIZATION: string;
