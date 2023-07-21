@@ -363,10 +363,10 @@ If enabled, surveys will be presented on documentation pages.
 
 ### `REACT_APP_ORGANIZATION`
 
-**Default: `"mdn"`**
+**Default: `"MDN"`**
 
 The organization which is hosting the docs — this determines which links are
-displayed in the footer, etc. Acceptable values are `"mdn"` and `"webdocs.dev"`.
+displayed in the footer, etc. Acceptable values are `"MDN"` and `"webdocs.dev"`.
 
 ### `REACT_APP_SEARCH_BACKEND`
 
