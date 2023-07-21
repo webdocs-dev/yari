@@ -129,21 +129,21 @@ For example, you can host the web docs on port 5042 using Apache2 as follows:
     # (as root from the directory of yari)
     rm -rf /var/www/web-docs
     mkdir -p /var/www
-    a2enmod alias
     cp -r client/build /var/www/web-docs
     cat <<EOF > /etc/apache2/sites-available/web-docs.conf
-    <VirtualHost *:80>
-        Alias /web-docs /var/www/web-docs
+    <VirtualHost *:5042>
+        DocumentRoot /var/www/web-docs
+        ErrorDocument 404 /en-us/_spas/404.html
     </VirtualHost>
     <Directory /var/www/web-docs>
         RemoveHandler .var
-        ErrorDocument 404 /en-us/_spas/404.html
     </Directory>
     EOF
     ln -sf ../sites-available/web-docs.conf /etc/apache2/sites-enabled/web-docs.conf
-    systemctl restart apache2
 
-Now you can visit `http://localhost/web-docs` to view the web docs offline.
+Then add `Listen 5042` next to `Listen 80` in `/etc/apache2/ports.conf` and run
+`systemctl restart apache2`. Now you can visit `http://localhost:5042` to view
+the web docs offline.
 
 ## License
 
