@@ -361,15 +361,21 @@ If enabled, surveys will be presented on documentation pages.
 - Sets the host name for the playground iframe. Set this to `localhost:5042`
   when working on playground functionality.
 
-### `REACT_APP_PLAYGROUND_ALLOW_STORAGE`
+### `REACT_APP_PLAYGROUND_ALLOW_SAME_ORIGIN`
 
 **Default: `true`**
 
-Sets whether the playground is allowed to use `localStorage` and
-`document.cookie`. If this is set to `true`, each playground will be given a
-unique subdomain of `REACT_APP_PLAYGROUND_BASE_HOST` for isolation. Otherwise,
-all playgrounds will use the same origin, so you won't need to set up a wildcard
-DNS record.
+If this is set to `true`, each playground will be given a unique subdomain of
+`REACT_APP_PLAYGROUND_BASE_HOST` for isolation. Otherwise, all playgrounds will
+use the same origin. This simplifies the DNS setup for the playground host, but
+any APIs which have a same-origin policy will be unavailable from the
+playground. These include:
+
+- `localStorage`
+- `sessionStorage`
+- `indexedDB`
+- `XMLHttpRequest`
+- `fetch`
 
 ### `REACT_APP_ORGANIZATION`
 
