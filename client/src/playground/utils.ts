@@ -44,6 +44,16 @@ export function codeToMarkdown(code: EditorContent): string {
   return parts.join("\n\n");
 }
 
+export function codeToPermalink(code: EditorContent): string {
+  const url = new URL(window.location.href); // use origin from window.location.href
+  url.pathname = "/en-us/play";
+  url.hash = "";
+  url.searchParams.set("html", code.html);
+  url.searchParams.set("css", code.css);
+  url.searchParams.set("js", code.js);
+  return url.href;
+}
+
 export function initPlayIframe(
   iframe: HTMLIFrameElement | null,
   editorContent: EditorContent | null

@@ -75,6 +75,10 @@ export const PLAYGROUND_ALLOW_SAME_ORIGIN = Boolean(
   JSON.parse(process.env.REACT_APP_PLAYGROUND_ALLOW_SAME_ORIGIN || "true")
 );
 
+export const PLAYGROUND_SHARE_VIA_URL_PARAMS = Boolean(
+  JSON.parse(process.env.REACT_APP_PLAYGROUND_SHARE_VIA_URL_PARAMS || "false")
+);
+
 export const SEARCH_BACKEND = process.env.REACT_APP_SEARCH_BACKEND || "api";
 
 export const MDN_PLUS_SUBSCRIBE_5M_URL = `${process.env.REACT_APP_MDN_PLUS_SUBSCRIBE_URL}?plan=${process.env.REACT_APP_MDN_PLUS_5M_PLAN}`;
