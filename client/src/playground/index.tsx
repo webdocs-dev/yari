@@ -14,7 +14,7 @@ import { SidePlacement } from "../ui/organisms/placement";
 import { EditorContent, SESSION_KEY, updatePlayIframe } from "./utils";
 
 import "./index.scss";
-import { PLAYGROUND_BASE_HOST, PLAYGROUND_ALLOW_STORAGE } from "../env";
+import { PLAYGROUND_BASE_HOST, PLAYGROUND_ALLOW_SAME_ORIGIN } from "../env";
 import { FlagForm, ShareForm } from "./forms";
 import { Console, VConsole } from "./console";
 import { useGleanClick } from "../telemetry/glean-context";
@@ -238,7 +238,8 @@ export default function Playground() {
   // We're using a random subdomain for origin isolation.
   const src = new URL(
     `${window.location.protocol}//${
-      !PLAYGROUND_ALLOW_STORAGE || PLAYGROUND_BASE_HOST.startsWith("localhost")
+      !PLAYGROUND_ALLOW_SAME_ORIGIN ||
+      PLAYGROUND_BASE_HOST.startsWith("localhost")
         ? ""
         : `${subdomain.current}.`
     }${PLAYGROUND_BASE_HOST}`
@@ -330,7 +331,7 @@ export default function Playground() {
             ref={iframe}
             src={src.toString()}
             sandbox={`allow-scripts${
-              PLAYGROUND_ALLOW_STORAGE ? " allow-same-origin" : ""
+              PLAYGROUND_ALLOW_SAME_ORIGIN ? " allow-same-origin" : ""
             }`}
           ></iframe>
           <Console vConsole={vConsole} />

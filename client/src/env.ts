@@ -71,8 +71,8 @@ export const PLACEMENT_ENABLED = Boolean(
   JSON.parse(process.env.REACT_APP_PLACEMENT_ENABLED || "false")
 );
 
-export const PLAYGROUND_ALLOW_STORAGE = Boolean(
-  JSON.parse(process.env.REACT_APP_PLAYGROUND_ALLOW_STORAGE || "true")
+export const PLAYGROUND_ALLOW_SAME_ORIGIN = Boolean(
+  JSON.parse(process.env.REACT_APP_PLAYGROUND_ALLOW_SAME_ORIGIN || "true")
 );
 
 export const SEARCH_BACKEND = process.env.REACT_APP_SEARCH_BACKEND || "api";
