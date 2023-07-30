@@ -365,11 +365,11 @@ If enabled, surveys will be presented on documentation pages.
 
 **Default: `true`**
 
-Sets whether playground is allowed to use client-side storage APIs (e.g.
-cookies, `localStorage`). If this is set to `true`, each playground will be
-given a unique subdomain of `REACT_APP_PLAYGROUND_BASE_HOST` for isolation.
-Otherwise, all playgrounds will use the same origin, so you won't need to set up
-a wildcard DNS record.
+Sets whether the playground is allowed to use `localStorage` and
+`document.cookie`. If this is set to `true`, each playground will be given a
+unique subdomain of `REACT_APP_PLAYGROUND_BASE_HOST` for isolation. Otherwise,
+all playgrounds will use the same origin, so you won't need to set up a wildcard
+DNS record.
 
 ### `REACT_APP_ORGANIZATION`
 
