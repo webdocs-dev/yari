@@ -14,7 +14,11 @@ import { SidePlacement } from "../ui/organisms/placement";
 import { EditorContent, SESSION_KEY, updatePlayIframe } from "./utils";
 
 import "./index.scss";
-import { PLAYGROUND_BASE_HOST, PLAYGROUND_ALLOW_SAME_ORIGIN } from "../env";
+import {
+  PLAYGROUND_BASE_HOST,
+  PLAYGROUND_ALLOW_SAME_ORIGIN,
+  PLAYGROUND_SHARE_VIA_URL_PARAMS,
+} from "../env";
 import { FlagForm, ShareForm } from "./forms";
 import { Console, VConsole } from "./console";
 import { useGleanClick } from "../telemetry/glean-context";
@@ -102,6 +106,21 @@ export default function Playground() {
   const jsRef = useRef<EditorHandle | null>(null);
   const iframe = useRef<HTMLIFrameElement | null>(null);
   const diaRef = useRef<HTMLDialogElement | null>(null);
+
+  if (PLAYGROUND_SHARE_VIA_URL_PARAMS) {
+    // Get code from URL parameters.
+    const html = searchParams.get("html");
+    const css = searchParams.get("css");
+    const js = searchParams.get("js");
+
+    if (html !== null && css !== null && js !== null) {
+      initialCode = {
+        html,
+        css,
+        js,
+      };
+    }
+  }
 
   useEffect(() => {
     initialCode && store(SESSION_KEY, initialCode);

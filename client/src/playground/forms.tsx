@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Button } from "../ui/atoms/button";
-import { EditorContent, codeToMarkdown } from "./utils";
+import { EditorContent, codeToMarkdown, codeToPermalink } from "./utils";
 import { Loading } from "../ui/atoms/loading";
 import { useUserData } from "../user-context";
 import { usePlusUrl } from "../plus/utils";
 import { useGleanClick } from "../telemetry/glean-context";
 import { AuthContainer } from "../ui/molecules/auth-container";
 import { PLAYGROUND } from "../telemetry/constants";
+import { PLAYGROUND_SHARE_VIA_URL_PARAMS } from "../env";
 
 export function FlagForm({ gistId }: { gistId: string | null }) {
   return (
@@ -67,6 +68,7 @@ export function ShareForm({
   const href = usePlusUrl();
   const gleanClick = useGleanClick();
   let [loading, setLoading] = useState(false);
+
   return (
     <form className="share">
       <Button
@@ -93,7 +95,20 @@ export function ShareForm({
       </section>
       <section id="share-link">
         <span>Share your code via Permalink</span>
-        {userData?.isAuthenticated ? (
+        {PLAYGROUND_SHARE_VIA_URL_PARAMS ? (
+          <>
+            <Button
+              type="secondary"
+              onClickHandler={async () => {
+                if (!code) return;
+                gleanClick(`${PLAYGROUND}: share-permalink`);
+                await navigator.clipboard.writeText(codeToPermalink(code()));
+              }}
+            >
+              Copy link to clipboard
+            </Button>
+          </>
+        ) : userData?.isAuthenticated ? (
           <>
             {url ? (
               loading ? (

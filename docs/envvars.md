@@ -377,6 +377,14 @@ playground. These include:
 - `XMLHttpRequest`
 - `fetch`
 
+### `REACT_APP_PLAYGROUND_SHARE_VIA_URL_PARAMS`
+
+**Default: `false`**
+
+If enabled, the playground "share your code via permalink" functionality will be
+handled through URL parameters rather than storing the code on the server. This
+lets users share their playground creations without signing up for MDN Plus.
+
 ### `REACT_APP_ORGANIZATION`
 
 **Default: `"MDN"`**
