@@ -383,8 +383,7 @@ playground. These include:
 
 If enabled, the playground "share your code via permalink" functionality will be
 handled through URL parameters rather than storing the code on the server. This
-lets users will share their playground creations without signing up for MDN
-Plus.
+lets users share their playground creations without signing up for MDN Plus.
 
 ### `REACT_APP_ORGANIZATION`
 
