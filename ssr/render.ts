@@ -9,7 +9,6 @@ import { DEFAULT_LOCALE } from "../libs/constants";
 import {
   ALWAYS_ALLOW_ROBOTS,
   BUILD_OUT_ROOT,
-  BASE_URL,
   CONTENT_ORIGIN,
 } from "../libs/env";
 
@@ -166,7 +165,7 @@ export default function render(
   const webfontURLs = extractWebFontURLs();
   const rendered = renderToString(renderApp);
 
-  let canonicalURL = BASE_URL;
+  let canonicalURL = CONTENT_ORIGIN;
 
   let pageDescription = "";
   let escapedPageTitle = htmlEscape(pageTitle);
@@ -290,7 +289,7 @@ export default function render(
 
   if (!pageNotFound) {
     html = html.replace(
-      '<link rel="canonical" href="https://developer.mozilla.org"/>',
+      /<link rel="canonical"[^>]*>/,
       () => `<link rel="canonical" href="${canonicalURL}"/>`
     );
   }
