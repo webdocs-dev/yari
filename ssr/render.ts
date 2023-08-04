@@ -11,6 +11,7 @@ import {
   BUILD_OUT_ROOT,
   BASE_URL,
   CONTENT_ORIGIN,
+  ORGANIZATION,
 } from "../libs/env";
 
 const dirname = path.dirname(fileURLToPath(new URL(".", import.meta.url)));
@@ -268,7 +269,10 @@ export default function render(
       ? "noindex, nofollow"
       : "index, follow";
   const robotsMeta = `<meta name="robots" content="${robotsContent}">`;
-  const rssLink = `<link rel="alternate" type="application/rss+xml" title="MDN Blog RSS Feed" href="/${DEFAULT_LOCALE}/blog/rss.xml" hreflang="en" />`;
+  const rssLink =
+    ORGANIZATION === "MDN"
+      ? `<link rel="alternate" type="application/rss+xml" title="MDN Blog RSS Feed" href="/${DEFAULT_LOCALE}/blog/rss.xml" hreflang="en" />`
+      : "";
   const ssr_data = [...translations, ...webfontTags, rssLink, robotsMeta];
   let html = buildHtml;
   html = html.replace(
