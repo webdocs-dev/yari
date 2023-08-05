@@ -133,8 +133,24 @@ export function App(appProps: HydrationData) {
   const localeMatch = useMatch("/:locale/*");
 
   useEffect(() => {
-    const locale = localeMatch?.params.locale || appProps.locale;
-
+    let locale = localeMatch?.params.locale || appProps.locale || "en-US";
+    // make sure locale has correct case convention
+    locale = locale
+      .split("-")
+      .map((part, i) => {
+        if (i === 0) {
+          // language subtag
+          return part.toLowerCase();
+        } else if (part.length === 2) {
+          // region subtag
+          return part.toUpperCase();
+        } else {
+          // script subtag
+          console.assert(part.length === 4);
+          return part[0].toUpperCase() + part.substring(1).toLowerCase();
+        }
+      })
+      .join("-");
     document.documentElement.setAttribute("lang", locale);
   }, [appProps.locale, localeMatch]);
 
